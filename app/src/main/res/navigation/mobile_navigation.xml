@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="cm.franckmouanji.labores.fragments.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_historique"
+        android:name="cm.franckmouanji.labores.fragments.HistoriqueFragment"
+        android:label="@string/menu_historique"
+        tools:layout="@layout/fragment_historique" />
+
+    <fragment
+        android:id="@+id/nav_a_propos"
+        android:name="cm.franckmouanji.labores.fragments.APropos"
+        android:label="@string/menu_a_propos"
+        tools:layout="@layout/fragment_a_propos" />
+</navigation>
