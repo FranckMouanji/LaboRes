@@ -22,6 +22,9 @@
         <item>Grade</item>
         <item>Professeur</item>
         <item>Docteur</item>
-        <item>Doctorants</item>
+        <item>Doctorant</item>
     </array>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

@@ -1,4 +1,4 @@
-package cm.franckmouanji.labores;
+package cm.franckmouanji.labores.activities;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,29 +13,26 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import cm.franckmouanji.labores.R;
+import cm.franckmouanji.labores.databinding.ActivityHomeBinding;
 import cm.franckmouanji.labores.databinding.ActivityMainBinding;
 import cm.franckmouanji.labores.system.DialogInformAdd;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityMainBinding binding;
+    private ActivityHomeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
-        binding.appBarMain.addReservation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogInformAdd.addReservation(MainActivity.this);
-            }
-        });
+
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;

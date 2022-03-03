@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -23,6 +24,9 @@ import java.util.Calendar;
 
 import cm.franckmouanji.labores.R;
 import cm.franckmouanji.labores.model.Reservation;
+import com.google.firebase.Timestamp;
+
+import java.util.Date;
 
 
 public class DialogInformAdd {
@@ -189,8 +193,16 @@ public class DialogInformAdd {
 
 
                 if(goodData){
-                    Toast.makeText(context, "Good", Toast.LENGTH_SHORT).show();
+                    Date dateCreation = new Date();
+                    Timestamp timestamp = new Timestamp(dateCreation);
                     Reservation reservation1 = new Reservation("res1", gradeProf, nom, reservation, date, heure_deb, heure_f, false);
+                    reservation1.setDateCreation(timestamp);
+                    if(!(ActionAboutReservation.testReservation(reservation1, Controller.listReservation))){
+                        ActionAboutReservation.setDataFromFirebase(reservation1, context, dialog);
+                    }else{
+                        informError("Vous chevauchez une autre reservation veuillez modifier vos horaires",context);
+                        dialog.dismiss();
+                    }
                 }
 
 
@@ -209,12 +221,13 @@ public class DialogInformAdd {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        editText.setText(i+"/"+i1+"/"+i2);
+                        i1++;
+                        editText.setText(i2+"/"+i1+"/"+i);
                     }
                 },
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
-                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+                Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
         );
         datePickerDialog.show();
     }
@@ -236,6 +249,18 @@ public class DialogInformAdd {
         timePickerDialog.show();
     }
 
+    public static void informError(String text, Context context){
+        Dialog dialog = new Dialog(context);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.inform_layout);
+        dialog.show();
+
+        TextView textView = dialog.findViewById(R.id.inform);
+
+        textView.setText(text);
+
+
+    }
 
     public static void addStudentDeux(Context context) {
     }

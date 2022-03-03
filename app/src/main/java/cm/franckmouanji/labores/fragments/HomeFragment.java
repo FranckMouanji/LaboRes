@@ -8,13 +8,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import cm.franckmouanji.labores.R;
+import cm.franckmouanji.labores.activities.HomeActivity;
 import cm.franckmouanji.labores.adapter.ReservationAdapter;
 import cm.franckmouanji.labores.databinding.FragmentHomeBinding;
+import cm.franckmouanji.labores.system.ActionAboutReservation;
+import cm.franckmouanji.labores.system.Controller;
 import cm.franckmouanji.labores.system.DialogInformAdd;
 
 public class HomeFragment extends Fragment {
@@ -22,6 +32,8 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private RecyclerView item_list;
     private TextView empty;
+    ListenerRegistration registration;
+    private FloatingActionButton addReservation;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -30,19 +42,22 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-
+        registration = ActionAboutReservation.getReservationCollection().addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                ActionAboutReservation.chargeNewReservationData(getContext(), item_list, empty, Controller.listReservation);
+            }
+        });
 
         initViews(root);
 
 
-        String []data = {"21/12/2019","21/12/2019","21/12/2019","21/12/2019","21/12/2019","21/12/2019","21/12/2019","21/12/2019"};
-        String []heure = {"12h-13h","12h-13h","12h-13h","12h-13h","12h-13h","12h-13h","12h-13h","12h-13h"};
-        String []nom = {"Dr um","Mr Njeumen","Mr Ndje","Pr Bowong","Pr Fono","Mr Ndje","Dr Mosko","Mr Franck"};
-
-        ReservationAdapter adapter = new ReservationAdapter(nom,data,heure);
-
-        item_list.setLayoutManager(new LinearLayoutManager(root.getContext()));
-        item_list.setAdapter(adapter);
+        addReservation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogInformAdd.addReservation(getContext());
+            }
+        });
 
         return root;
     }
@@ -50,6 +65,7 @@ public class HomeFragment extends Fragment {
     private void initViews(View root){
         item_list = root.findViewById(R.id.item_list);
         empty = root.findViewById(R.id.empty);
+        addReservation = root.findViewById(R.id.add_reservation);
     }
 
     @Override

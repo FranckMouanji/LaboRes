@@ -1,14 +1,8 @@
 package cm.franckmouanji.labores.model;
 
-import android.content.Context;
-import android.provider.Settings;
-import android.widget.Toast;
+import com.google.firebase.Timestamp;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.Comparator;
 
 public class Reservation {
     private String id;
@@ -18,6 +12,7 @@ public class Reservation {
     private String dateReservation;
     private String heureDebut;
     private String heureFin;
+    private Timestamp dateCreation;
     private boolean check;
 
 
@@ -148,28 +143,40 @@ public class Reservation {
         }
     }
 
+    private static boolean imbriquer(int []tab, int []tab1, int []tab2, int []tab3){
+        if(compare(tab2,tab) && compare(tab1, tab3)){
+            return true;
+        }else if(compare(tab,tab2) && compare(tab3, tab1)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 
 
     public boolean chevauche(Reservation that) {
+        int[] heureDeb1 = new int[2];
+        int[] heureFin1 = new int[2];
+        int[] heureDeb2 = new int[2];
+        int[] heureFin2 = new int[2];
+
+        String[] heureDebS1 = this.heureDebut.split(":");
+        String[] heureFinS1 = this.heureFin.split(":");
+        String[] heureDebS2 = that.heureDebut.split(":");
+        String[] heureFinS2 = that.heureFin.split(":");
+
+        translateStringToInt(heureDebS1, heureDeb1);
+        translateStringToInt(heureFinS1, heureFin1);
+        translateStringToInt(heureDebS2, heureDeb2);
+        translateStringToInt(heureFinS2, heureFin2);
+
         if (this.equals(that)) {
+            return true;
+        }else if(imbriquer(heureDeb1, heureFin1, heureDeb2, heureFin2)){
             return true;
         } else {
             if (this.dateReservation.equals(that.dateReservation)) {
-                int[] heureDeb1 = new int[2];
-                int[] heureFin1 = new int[2];
-                int[] heureDeb2 = new int[2];
-                int[] heureFin2 = new int[2];
-
-                String[] heureDebS1 = this.heureDebut.split(":");
-                String[] heureFinS1 = this.heureFin.split(":");
-                String[] heureDebS2 = that.heureDebut.split(":");
-                String[] heureFinS2 = that.heureFin.split(":");
-
-                translateStringToInt(heureDebS1, heureDeb1);
-                translateStringToInt(heureFinS1, heureFin1);
-                translateStringToInt(heureDebS2, heureDeb2);
-                translateStringToInt(heureFinS2, heureFin2);
-
                 if (interval(heureDeb2, heureDeb1, heureFin1)) {
                     return true;
                 }else if(interval(heureDeb1, heureDeb2, heureFin2)){
@@ -182,5 +189,15 @@ public class Reservation {
             }
         }
     }
+
+    public Timestamp getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(Timestamp dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    public static Comparator<Reservation> comparatorDate = (reservation, t1) -> reservation.getDateCreation().compareTo(t1.getDateCreation());
 
 }

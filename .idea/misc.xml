@@ -5,7 +5,9 @@
       <map>
         <entry key="..\:/Android/project/LaboRes/app/src/main/res/drawable/background_dialog.xml" value="0.1" />
         <entry key="..\:/Android/project/LaboRes/app/src/main/res/drawable/side_nav_bar.xml" value="0.1" />
+        <entry key="..\:/Android/project/LaboRes/app/src/main/res/layout/activity_fullscreen.xml" value="0.20416666666666666" />
         <entry key="..\:/Android/project/LaboRes/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android/project/LaboRes/app/src/main/res/layout/activity_main2.xml" value="0.20416666666666666" />
         <entry key="..\:/Android/project/LaboRes/app/src/main/res/layout/add_reservation.xml" value="0.1" />
         <entry key="..\:/Android/project/LaboRes/app/src/main/res/layout/app_bar_main.xml" value="0.20416666666666666" />
         <entry key="..\:/Android/project/LaboRes/app/src/main/res/layout/content_main.xml" value="0.20416666666666666" />
@@ -13,6 +15,8 @@
         <entry key="..\:/Android/project/LaboRes/app/src/main/res/layout/fragment_a_propos.xml" value="0.1" />
         <entry key="..\:/Android/project/LaboRes/app/src/main/res/layout/fragment_historique.xml" value="0.1" />
         <entry key="..\:/Android/project/LaboRes/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Android/project/LaboRes/app/src/main/res/layout/infor_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android/project/LaboRes/app/src/main/res/layout/inform_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/Android/project/LaboRes/app/src/main/res/layout/item_model.xml" value="0.1" />
         <entry key="..\:/Android/project/LaboRes/app/src/main/res/layout/nav_header_main.xml" value="0.20416666666666666" />
         <entry key="..\:/Android/project/LaboRes/app/src/main/res/layout/spinner_dropdown_item.xml" value="0.20416666666666666" />
