@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:gravity="center"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:padding="30dp"
+    android:background="#373535"
+    android:layout_height="wrap_content">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
         >
 
         <Spinner
@@ -20,51 +25,36 @@
             />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/typeRes"
+            android:id="@+id/nomProf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Typede reservation"
+            android:hint="Votre nom"
             android:textColorHint="@color/white"
             android:layout_marginBottom="30dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
+                android:textColorHint="@color/white"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:inputType="textEmailAddress"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/stu_prenom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint=""
-            android:textColorHint="@color/white"
-            android:layout_marginBottom="30dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:inputType="textEmailAddress"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <Spinner
-            android:id="@+id/stu_classe"
+            android:id="@+id/grade"
             android:layout_marginBottom="30dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/stu_name_parent"
+            android:id="@+id/date_reservation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint=""
+            android:hint="Date de reservation"
             android:textColorHint="@color/white"
             android:layout_marginBottom="30dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -72,38 +62,73 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:inputType="textEmailAddress"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/stu_date_payement"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Date de payement"
-            android:textColorHint="@color/white"
-            android:layout_marginBottom="30dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="false"
                 android:focusable="false"
                 android:textColor="@color/white"
                 android:inputType="date"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
-
-        <Button
-            android:id="@+id/add"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/heure_debut"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="ajouter"/>
+            android:hint="Heure de debut"
+            android:textColorHint="@color/white"
+            android:layout_marginBottom="30dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:textColor="@color/white"
+                android:inputType="time"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/heure_fin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Heure de fin"
+            android:textColorHint="@color/white"
+            android:layout_marginBottom="30dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:textColor="@color/white"
+                android:inputType="time"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <Button
+                android:id="@+id/add_reserve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:text="ajouter"/>
+
+            <Button
+                android:id="@+id/annuler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:text="annuler"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

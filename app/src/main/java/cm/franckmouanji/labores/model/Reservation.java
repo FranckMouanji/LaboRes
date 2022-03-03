@@ -1,6 +1,8 @@
 package cm.franckmouanji.labores.model;
 
+import android.content.Context;
 import android.provider.Settings;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -107,22 +109,78 @@ public class Reservation {
         return dateReservation.equals(that.dateReservation) && heureDebut.equals(that.heureDebut) && heureFin.equals(that.heureFin);
     }
 
-    public boolean chevauche(Reservation that){
-        if(this.equals(that)){
+
+    private static void translateStringToInt(String [] tabString, int [] tabInt){
+        int len = tabInt.length;
+        for(int i=0; i<len; i++){
+            tabInt[i] = Integer.parseInt(tabString[i]);
+        }
+    }
+
+    private static boolean interval(int []x, int []y, int []z){
+        return (compare(x,y) && compare(z,x));
+    }
+
+    private static boolean compare(int []tab, int []tab1){
+        if(tab[0]>tab1[0]){
+            return  true;
+        }else if((tab[0] == tab1[0]) && (tab[1]>=tab1[1])){
             return true;
         }else{
-            if(this.dateReservation.equals(that.dateReservation)){
-                DateFormat df = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.forLanguageTag(Settings.Global.AUTO_TIME_ZONE));
+            return false;
+        }
+    }
 
-                try {
-                    Date date = df.parse(this.heureDebut);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+
+    public static boolean compHeure(String heure1, String heure2){
+        String [] heure1L = heure1.split(":");
+        String [] heure2L = heure2.split(":");
+        int[] heureDeb = new int[2];
+        int[] heureFin = new int[2];
+
+        translateStringToInt(heure1L, heureDeb);
+        translateStringToInt(heure2L, heureFin);
+
+        if(compare(heureDeb, heureFin)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+
+    public boolean chevauche(Reservation that) {
+        if (this.equals(that)) {
+            return true;
+        } else {
+            if (this.dateReservation.equals(that.dateReservation)) {
+                int[] heureDeb1 = new int[2];
+                int[] heureFin1 = new int[2];
+                int[] heureDeb2 = new int[2];
+                int[] heureFin2 = new int[2];
+
+                String[] heureDebS1 = this.heureDebut.split(":");
+                String[] heureFinS1 = this.heureFin.split(":");
+                String[] heureDebS2 = that.heureDebut.split(":");
+                String[] heureFinS2 = that.heureFin.split(":");
+
+                translateStringToInt(heureDebS1, heureDeb1);
+                translateStringToInt(heureFinS1, heureFin1);
+                translateStringToInt(heureDebS2, heureDeb2);
+                translateStringToInt(heureFinS2, heureFin2);
+
+                if (interval(heureDeb2, heureDeb1, heureFin1)) {
+                    return true;
+                }else if(interval(heureDeb1, heureDeb2, heureFin2)){
+                    return true;
+                }else{
+                    return false;
                 }
+            }else{
+                return false;
             }
         }
-
-        return false;
     }
 
 }

@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,12 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import cm.franckmouanji.labores.R;
 import cm.franckmouanji.labores.adapter.ReservationAdapter;
 import cm.franckmouanji.labores.databinding.FragmentHomeBinding;
+import cm.franckmouanji.labores.system.DialogInformAdd;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private RecyclerView item_list;
-    private Spinner type_reservation;
+    private TextView empty;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -29,14 +30,9 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        String[] list= getResources().getStringArray(R.array.types_reservations);
-        ArrayAdapter adapter1 = new ArrayAdapter(getContext(),
-                R.layout.spinner_item, list);
-        adapter1.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
 
         initViews(root);
-
-        type_reservation.setAdapter(adapter1);
 
 
         String []data = {"21/12/2019","21/12/2019","21/12/2019","21/12/2019","21/12/2019","21/12/2019","21/12/2019","21/12/2019"};
@@ -53,7 +49,7 @@ public class HomeFragment extends Fragment {
 
     private void initViews(View root){
         item_list = root.findViewById(R.id.item_list);
-        type_reservation = root.findViewById(R.id.type_reservation);
+        empty = root.findViewById(R.id.empty);
     }
 
     @Override
