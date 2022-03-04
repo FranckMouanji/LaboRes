@@ -8,6 +8,7 @@ public class Reservation {
     private String id;
     private String grade;
     private String nomProf;
+    private String numeroProf;
     private String typeReservation;
     private String dateReservation;
     private String heureDebut;
@@ -61,6 +62,14 @@ public class Reservation {
 
     public void setTypeReservation(String typeReservation) {
         this.typeReservation = typeReservation;
+    }
+
+    public String getNumeroProf() {
+        return numeroProf;
+    }
+
+    public void setNumeroProf(String numeroProf) {
+        this.numeroProf = numeroProf;
     }
 
     public String getDateReservation() {

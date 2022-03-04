@@ -1,5 +1,6 @@
 package cm.franckmouanji.labores.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import cm.franckmouanji.labores.R;
 import cm.franckmouanji.labores.databinding.ActivityHomeBinding;
 import cm.franckmouanji.labores.databinding.ActivityMainBinding;
+import cm.franckmouanji.labores.system.Controller;
 import cm.franckmouanji.labores.system.DialogInformAdd;
 
 public class HomeActivity extends AppCompatActivity {
@@ -32,7 +34,14 @@ public class HomeActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
-
+        //getInformation to connexion
+        Intent intent = getIntent();
+        if(intent.hasExtra("connexion")){
+            String message = intent.getStringExtra("connexion");
+            if(message.equals("false")){
+                DialogInformAdd.connexionDialog(HomeActivity.this);
+            }
+        }
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;

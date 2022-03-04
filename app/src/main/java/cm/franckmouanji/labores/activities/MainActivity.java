@@ -31,9 +31,17 @@ public class MainActivity extends AppCompatActivity {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                startActivity(intent);
-                finish();
+                if(verifConnexion()){
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    intent.putExtra("connexion", "true");
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    intent.putExtra("connexion", "false");
+                    startActivity(intent);
+                    finish();
+                }
             }
         }, 2000);
     }

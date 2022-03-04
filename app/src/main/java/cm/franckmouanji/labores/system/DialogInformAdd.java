@@ -73,9 +73,10 @@ public class DialogInformAdd {
         adapter2.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
         //initViews
-        Spinner  type_reservation = dialog.findViewById(R.id.type_reservation);
         Spinner grade = dialog.findViewById(R.id.grade);
         TextInputLayout nomProf = dialog.findViewById(R.id.nomProf);
+        TextInputLayout numProf = dialog.findViewById(R.id.numProf);
+        Spinner  type_reservation = dialog.findViewById(R.id.type_reservation);
         TextInputLayout date_reservation = dialog.findViewById(R.id.date_reservation);
         TextInputLayout heure_debut = dialog.findViewById(R.id.heure_debut);
         TextInputLayout heure_fin = dialog.findViewById(R.id.heure_fin);
@@ -130,6 +131,7 @@ public class DialogInformAdd {
             @Override
             public void onClick(View view) {
                 String nom = nomProf.getEditText().getText().toString();
+                String numero = numProf.getEditText().getText().toString();
                 String gradeProf = grade.getSelectedItem().toString();
                 String reservation = type_reservation.getSelectedItem().toString();
                 String date = date_reservation.getEditText().getText().toString();
@@ -156,6 +158,16 @@ public class DialogInformAdd {
                     Toast.makeText(context, "precisez le motif de la reservation", Toast.LENGTH_LONG).show();
                     goodData = false;
                 }else{
+                    goodData = true;
+                }
+
+                if(numero.equals("")){
+                    numProf.setError("precisez votre numero");
+                    numProf.requestFocus();
+                    goodData = false;
+                }else{
+                    numProf.setError("");
+                    numProf.clearFocus();
                     goodData = true;
                 }
 
