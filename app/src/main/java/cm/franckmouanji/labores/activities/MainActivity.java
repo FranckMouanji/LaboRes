@@ -16,6 +16,7 @@ import com.squareup.okhttp.Response;
 
 
 import cm.franckmouanji.labores.R;
+import cm.franckmouanji.labores.system.Controller;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,15 +33,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(verifConnexion()){
-                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                    intent.putExtra("connexion", "true");
-                    startActivity(intent);
-                    finish();
+
+                    if(Controller.file_not_empty(MainActivity.this)){
+                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                        intent.putExtra("connexion", "true");
+                        startActivity(intent);
+                        finish();
+                    }else {
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        intent.putExtra("connexion", "true");
+                        startActivity(intent);
+                        finish();
+                    }
                 }else{
-                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                    intent.putExtra("connexion", "false");
-                    startActivity(intent);
-                    finish();
+
+                    if(Controller.file_not_empty(MainActivity.this)){
+                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                        intent.putExtra("connexion", "false");
+                        startActivity(intent);
+                        finish();
+                    }else {
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        intent.putExtra("connexion", "false");
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             }
         }, 2000);
@@ -66,3 +83,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+
+
+
+

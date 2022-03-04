@@ -161,8 +161,9 @@ public class DialogInformAdd {
                     goodData = true;
                 }
 
-                if(numero.equals("")){
-                    numProf.setError("precisez votre numero");
+
+                if(!(Controller.verifNumero(numero))){
+                    numProf.setError("entrez un numero valide");
                     numProf.requestFocus();
                     goodData = false;
                 }else{

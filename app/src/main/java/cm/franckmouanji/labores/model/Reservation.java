@@ -2,9 +2,10 @@ package cm.franckmouanji.labores.model;
 
 import com.google.firebase.Timestamp;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class Reservation {
+public class Reservation implements Serializable {
     private String id;
     private String grade;
     private String nomProf;
