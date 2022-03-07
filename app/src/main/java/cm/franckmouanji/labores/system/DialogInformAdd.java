@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -66,17 +67,21 @@ public class DialogInformAdd {
         String[] list= context.getResources().getStringArray(R.array.types_reservations);
         String[] listGrade= context.getResources().getStringArray(R.array.grade);
 
-        ArrayAdapter adapter1 = new ArrayAdapter(context, R.layout.spinner_item, list);
-        ArrayAdapter adapter2 = new ArrayAdapter(context, R.layout.spinner_item, listGrade);
+        ArrayAdapter adapter1 = new ArrayAdapter(context, R.layout.option_item, list);
+        ArrayAdapter adapter2 = new ArrayAdapter(context, R.layout.option_item, listGrade);
 
         adapter1.setDropDownViewResource(R.layout.spinner_dropdown_item);
         adapter2.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
         //initViews
-        Spinner grade = dialog.findViewById(R.id.grade);
+        TextInputLayout grade_spinner = dialog.findViewById(R.id.grade_spinner);
+        TextInputLayout type_reservation_spinner = dialog.findViewById(R.id.type_reservation_spinner);
+        AutoCompleteTextView grade = dialog.findViewById(R.id.grade);
+        AutoCompleteTextView  type_reservation = dialog.findViewById(R.id.type_reservation);
+
+
         TextInputLayout nomProf = dialog.findViewById(R.id.nomProf);
         TextInputLayout numProf = dialog.findViewById(R.id.numProf);
-        Spinner  type_reservation = dialog.findViewById(R.id.type_reservation);
         TextInputLayout date_reservation = dialog.findViewById(R.id.date_reservation);
         TextInputLayout heure_debut = dialog.findViewById(R.id.heure_debut);
         TextInputLayout heure_fin = dialog.findViewById(R.id.heure_fin);
@@ -132,13 +137,24 @@ public class DialogInformAdd {
             public void onClick(View view) {
                 String nom = nomProf.getEditText().getText().toString();
                 String numero = numProf.getEditText().getText().toString();
-                String gradeProf = grade.getSelectedItem().toString();
-                String reservation = type_reservation.getSelectedItem().toString();
+                String gradeProf = grade.getText().toString();
+                String reservation = type_reservation.getText().toString();
                 String date = date_reservation.getEditText().getText().toString();
                 String heure_deb = heure_debut.getEditText().getText().toString();
                 String heure_f = heure_fin.getEditText().getText().toString();
 
                 boolean goodData;
+
+                if(gradeProf.equals("")){
+                    grade_spinner.setError("Choisir un grade");
+                    grade_spinner.requestFocus();
+                    goodData = false;
+                }else {
+                    grade_spinner.setError("");
+                    grade_spinner.clearFocus();
+                    goodData = true;
+                }
+
 
                 if(nom.equals("")){
                     nomProf.setError("precisez votre nom");
@@ -150,14 +166,15 @@ public class DialogInformAdd {
                     goodData = true;
                 }
 
-                if(gradeProf.equals("Grade")){
-                    Toast.makeText(context, "Choisir un grade", Toast.LENGTH_LONG).show();
-                    grade.requestFocus();
-                    goodData = false;
-                }else if(reservation.equals("Motif de reservation")){
-                    Toast.makeText(context, "precisez le motif de la reservation", Toast.LENGTH_LONG).show();
+
+
+                if(reservation.equals("")){
+                    type_reservation_spinner.setError("precisez le motif de la reservation");
+                    type_reservation_spinner.requestFocus();
                     goodData = false;
                 }else{
+                    type_reservation_spinner.setError("");
+                    type_reservation_spinner.clearFocus();
                     goodData = true;
                 }
 
@@ -209,6 +226,7 @@ public class DialogInformAdd {
                     Date dateCreation = new Date();
                     Timestamp timestamp = new Timestamp(dateCreation);
                     Reservation reservation1 = new Reservation("res1", gradeProf, nom, reservation, date, heure_deb, heure_f, false);
+                    reservation1.setNumeroProf(numero);
                     reservation1.setDateCreation(timestamp);
                     if(!(ActionAboutReservation.testReservation(reservation1, Controller.listReservation))){
                         ActionAboutReservation.setDataFromFirebase(reservation1, context, dialog);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:gravity="center"
@@ -21,18 +21,35 @@
             android:orientation="vertical"
             >
 
-            <Spinner
-                android:id="@+id/grade"
-                android:layout_marginBottom="30dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/grade_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:hint="votre grade"
+                app:endIconTint="@color/white"
+                app:hintTextColor="@color/white"
+                android:textColorHint="@color/white"
+                app:layout_constraintVertical_bias="0.094"
+                app:layout_constraintWidth_percent=".9"
+                android:layout_marginTop="10dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/grade"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:inputType="none"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/nomProf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Votre nom"
+                app:hintTextColor="@color/white"
                 android:textColorHint="@color/white"
                 android:focusableInTouchMode="true"
                 android:layout_marginBottom="30dp"
@@ -48,11 +65,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
+
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/numProf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Votre numero de téléphone"
+                app:hintTextColor="@color/white"
                 android:textColorHint="@color/white"
                 android:layout_marginBottom="30dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -62,17 +82,36 @@
                     android:textColorHint="@color/white"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:inputType="text"/>
+                    android:inputType="phone"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <Spinner
-                android:id="@+id/type_reservation"
-                android:layout_marginBottom="30dp"
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/type_reservation_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:hint="Motif de reservation"
+                app:endIconTint="@color/white"
+                app:hintTextColor="@color/white"
+                android:textColorHint="@color/white"
+                app:layout_constraintVertical_bias="0.094"
+                app:layout_constraintWidth_percent=".9"
+                android:layout_marginTop="10dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/type_reservation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:inputType="none"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -80,6 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Date de reservation"
+                app:hintTextColor="@color/white"
                 android:textColorHint="@color/white"
                 android:layout_marginBottom="30dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -98,6 +138,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Heure de debut"
+                app:hintTextColor="@color/white"
                 android:textColorHint="@color/white"
                 android:layout_marginBottom="30dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -116,6 +157,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Heure de fin"
+                app:hintTextColor="@color/white"
                 android:textColorHint="@color/white"
                 android:layout_marginBottom="30dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">

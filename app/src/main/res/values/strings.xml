@@ -12,14 +12,14 @@
     <string name="menu_a_propos">A propos</string>
 
     <array name="types_reservations">
-        <item>Motif de reservation</item>
+        <item> </item>
         <item>Cours</item>
         <item>Soutenance</item>
         <item>Conférence</item>
     </array>
 
     <array name="grade">
-        <item>Grade</item>
+        <item> </item>
         <item>Professeur</item>
         <item>Docteur</item>
         <item>Doctorant</item>

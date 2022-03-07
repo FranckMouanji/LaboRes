@@ -24,13 +24,17 @@ public class Controller {
     public static boolean verifNumero(String numero){
         int taille = numero.length();
         if(taille == 9){
-            int []tab = new int[taille];
+            String []tab = new String[taille];
             for(int i=0; i<taille; i++){
-                tab[i] = (int) numero.charAt(i);
+                tab[i] = String.valueOf(numero.charAt(i));
             }
 
-            if(tab[0] == 6){
-                if(tab[1] == 5 || tab[1] == 8 || tab[1] == 7 || tab[1] == 9 || tab[1] == 6){
+//            for(int i=0; i<taille; i++){
+//                Log.i("numero", tab[i]);
+//            }
+
+            if(tab[0].equals("6")){
+                if(tab[1].equals("5") || tab[1].equals("8") || tab[1].equals("7") || tab[1].equals("9") || tab[1].equals("6")){
                     return true;
                 }
             }
