@@ -3,7 +3,6 @@ package cm.franckmouanji.labores.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -16,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import cm.franckmouanji.labores.R;
 import cm.franckmouanji.labores.databinding.ActivityHomeBinding;
-import cm.franckmouanji.labores.databinding.ActivityMainBinding;
 import cm.franckmouanji.labores.system.Controller;
 import cm.franckmouanji.labores.system.DialogInformAdd;
 
@@ -39,9 +37,11 @@ public class HomeActivity extends AppCompatActivity {
         if(intent.hasExtra("connexion")){
             String message = intent.getStringExtra("connexion");
             if(message.equals("false")){
-                DialogInformAdd.connexionDialog(HomeActivity.this);
+                DialogInformAdd.fatalErrorDialog(HomeActivity.this);
             }
         }
+
+        Controller.veriVersion(HomeActivity.this);
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;

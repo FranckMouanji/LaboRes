@@ -27,4 +27,9 @@
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="image_wifi">image wifi</string>
+    <string name="verifier_votre_connexion_internet">Verifier votre connexion internet</string>
+    <string name="ok">OK</string>
+    <string name="image_de_mise_a_jour">image de mise a jour</string>
+    <string name="veuillez_mettre_a_jour_l_application">Veuillez mettre a jour l\'application</string>
 </resources>

@@ -28,31 +28,32 @@ public class LoginActivity extends AppCompatActivity {
         init();
 
         log_send.setOnClickListener(view -> {
-            boolean goodDate;
+            boolean data, data1;
+
             String email = Objects.requireNonNull(log_email.getEditText()).getText().toString();
             String password = Objects.requireNonNull(log_password.getEditText()).getText().toString();
             if(email.equals("")){
                 log_email.setError("entrez votre mail");
                 log_email.requestFocus();
-                goodDate = false;
+                data = false;
 
             }else{
                 log_email.setError("");
                 log_email.clearFocus();
-                goodDate = true;
+                data = true;
             }
 
             if(password.equals("")){
                 log_password.setError("entrez votre mot de passe");
                 log_password.requestFocus();
-                goodDate = false;
+                data1 = false;
             }else{
                 log_password.setError("");
                 log_password.clearFocus();
-                goodDate = true;
+                data1 = true;
             }
 
-            if(goodDate){
+            if(data && data1){
                 if((email.equalsIgnoreCase("fs") && password.equals("237")) || (email.equals("admin") && password.equals("237"))){
                     Controller.create_file(email, LoginActivity.this);
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
@@ -73,9 +74,12 @@ public class LoginActivity extends AppCompatActivity {
         if(intent.hasExtra("connexion")){
             String message = intent.getStringExtra("connexion");
             if(message.equals("false")){
-                DialogInformAdd.connexionDialog(LoginActivity.this);
+                DialogInformAdd.fatalErrorDialog(LoginActivity.this);
             }
         }
+
+        Controller.veriVersion(LoginActivity.this);
+
         log_email = findViewById(R.id.log_email);
         log_password = findViewById(R.id.log_password);
         log_send = findViewById(R.id.log_send);

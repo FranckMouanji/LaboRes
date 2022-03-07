@@ -8,16 +8,13 @@ import android.content.Context;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -28,11 +25,12 @@ import cm.franckmouanji.labores.model.Reservation;
 import com.google.firebase.Timestamp;
 
 import java.util.Date;
+import java.util.Objects;
 
 
 public class DialogInformAdd {
 
-    public static void connexionDialog(final Context context){
+    public static void fatalErrorDialog(final Context context){
 
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.error_connexion);
@@ -41,12 +39,29 @@ public class DialogInformAdd {
         //variable du layout
         Button validate = dialog.findViewById(R.id.validate);
 
-        validate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((Activity)context).finish();
-                dialog.dismiss();
-            }
+        validate.setOnClickListener(view -> {
+            ((Activity)context).finish();
+            dialog.dismiss();
+        });
+
+
+        dialog.show();
+
+    }
+
+
+    public static void updateErrorDialog(final Context context){
+
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.update_error);
+        dialog.setCancelable(false);
+
+        //variable du layout
+        Button validate = dialog.findViewById(R.id.validate_update);
+
+        validate.setOnClickListener(view -> {
+            ((Activity)context).finish();
+            dialog.dismiss();
         });
 
 
@@ -61,14 +76,11 @@ public class DialogInformAdd {
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(false);
 
-        /**
-         * initiation du spinner
-         */
         String[] list= context.getResources().getStringArray(R.array.types_reservations);
         String[] listGrade= context.getResources().getStringArray(R.array.grade);
 
-        ArrayAdapter adapter1 = new ArrayAdapter(context, R.layout.option_item, list);
-        ArrayAdapter adapter2 = new ArrayAdapter(context, R.layout.option_item, listGrade);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(context, R.layout.spinner_item, list);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(context, R.layout.spinner_item, listGrade);
 
         adapter1.setDropDownViewResource(R.layout.spinner_dropdown_item);
         adapter2.setDropDownViewResource(R.layout.spinner_dropdown_item);
@@ -101,143 +113,120 @@ public class DialogInformAdd {
 
         //Listener
 
-        annuler.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        annuler.setOnClickListener(view -> dialog.dismiss());
 
         assert editText != null;
-        editText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDatePickerDialog(context, date_reservation.getEditText());
-            }
-        });
+        editText.setOnClickListener(view -> showDatePickerDialog(context, date_reservation.getEditText()));
 
         assert editText1 != null;
-        editText1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showTimePickerDialog(context, heure_debut.getEditText());
-            }
-        });
+        editText1.setOnClickListener(view -> showTimePickerDialog(context, heure_debut.getEditText()));
 
         assert editText2 != null;
-        editText2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showTimePickerDialog(context, heure_fin.getEditText());
+        editText2.setOnClickListener(view -> showTimePickerDialog(context, heure_fin.getEditText()));
+
+        add_reserve.setOnClickListener(view -> {
+            String nom = Objects.requireNonNull(nomProf.getEditText()).getText().toString();
+            String numero = Objects.requireNonNull(numProf.getEditText()).getText().toString();
+            String gradeProf = grade.getText().toString();
+            String reservation = type_reservation.getText().toString();
+            String date = Objects.requireNonNull(date_reservation.getEditText()).getText().toString();
+            String heure_deb = Objects.requireNonNull(heure_debut.getEditText()).getText().toString();
+            String heure_f = Objects.requireNonNull(heure_fin.getEditText()).getText().toString();
+
+            boolean data, data1, data2, data3, data4, data5, data6;
+
+            if(gradeProf.equals("")){
+                grade_spinner.setError("Choisir un grade");
+                grade_spinner.requestFocus();
+                data = false;
+            }else {
+                grade_spinner.setError("");
+                grade_spinner.clearFocus();
+                data = true;
             }
-        });
-
-        add_reserve.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String nom = nomProf.getEditText().getText().toString();
-                String numero = numProf.getEditText().getText().toString();
-                String gradeProf = grade.getText().toString();
-                String reservation = type_reservation.getText().toString();
-                String date = date_reservation.getEditText().getText().toString();
-                String heure_deb = heure_debut.getEditText().getText().toString();
-                String heure_f = heure_fin.getEditText().getText().toString();
-
-                boolean goodData;
-
-                if(gradeProf.equals("")){
-                    grade_spinner.setError("Choisir un grade");
-                    grade_spinner.requestFocus();
-                    goodData = false;
-                }else {
-                    grade_spinner.setError("");
-                    grade_spinner.clearFocus();
-                    goodData = true;
-                }
 
 
-                if(nom.equals("")){
-                    nomProf.setError("precisez votre nom");
-                    nomProf.requestFocus();
-                    goodData = false;
-                }else{
-                    nomProf.setError("");
-                    nomProf.clearFocus();
-                    goodData = true;
-                }
+            if(nom.equals("")){
+                nomProf.setError("precisez votre nom");
+                nomProf.requestFocus();
+                data1 = false;
+            }else{
+                nomProf.setError("");
+                nomProf.clearFocus();
+                data1 = true;
+            }
 
 
 
-                if(reservation.equals("")){
-                    type_reservation_spinner.setError("precisez le motif de la reservation");
-                    type_reservation_spinner.requestFocus();
-                    goodData = false;
-                }else{
-                    type_reservation_spinner.setError("");
-                    type_reservation_spinner.clearFocus();
-                    goodData = true;
-                }
+            if(reservation.equals("")){
+                type_reservation_spinner.setError("precisez le motif de la reservation");
+                type_reservation_spinner.requestFocus();
+                data2 = false;
+            }else{
+                type_reservation_spinner.setError("");
+                type_reservation_spinner.clearFocus();
+                data2 = true;
+            }
 
 
-                if(!(Controller.verifNumero(numero))){
-                    numProf.setError("entrez un numero valide");
-                    numProf.requestFocus();
-                    goodData = false;
-                }else{
-                    numProf.setError("");
-                    numProf.clearFocus();
-                    goodData = true;
-                }
+            if(!(Controller.verifNumero(numero))){
+                numProf.setError("entrez un numero valide");
+                numProf.requestFocus();
+                data3 = false;
+            }else{
+                numProf.setError("");
+                numProf.clearFocus();
+                data3 = true;
+            }
 
-                if(date.equals("")){
-                    date_reservation.setError("choisir la date de reservation");
-                    goodData = false;
-                }else{
-                    date_reservation.setError("");
-                    goodData = true;
-                }
+            if(date.equals("")){
+                date_reservation.setError("choisir la date de reservation");
+                data4 = false;
+            }else{
+                date_reservation.setError("");
+                data4 = true;
+            }
 
-                if(heure_deb.equals("")){
-                    heure_debut.setError("choisir l'heure de debut");
-                    goodData = false;
+            if(heure_deb.equals("")){
+                heure_debut.setError("choisir l'heure de debut");
+                data5 = false;
+            }else{
+                heure_debut.setError("");
+                data5 = true;
+            }
+
+            if(heure_f.equals("")){
+                heure_fin.setError("precisez l'heure de fin");
+                data6 = false;
+            }else{
+                if(Reservation.compHeure(heure_deb, heure_f)){
+                    heure_debut.setError("les heures doivent être differentes");
+                    heure_fin.setError("les heures doivent être differentes");
+                    data6 = false;
                 }else{
                     heure_debut.setError("");
-                    goodData = true;
+                    heure_fin.setError("");
+                    data6 = true;
                 }
-
-                if(heure_f.equals("")){
-                    heure_fin.setError("precisez l'heure de fin");
-                    goodData = false;
-                }else{
-                    if(Reservation.compHeure(heure_deb, heure_f)){
-                        heure_debut.setError("les heures doivent être differentes");
-                        heure_fin.setError("les heures doivent être differentes");
-                        goodData = false;
-                    }else{
-                        heure_debut.setError("");
-                        heure_fin.setError("");
-                        goodData = true;
-                    }
-                }
-
-
-
-                if(goodData){
-                    Date dateCreation = new Date();
-                    Timestamp timestamp = new Timestamp(dateCreation);
-                    Reservation reservation1 = new Reservation("res1", gradeProf, nom, reservation, date, heure_deb, heure_f, false);
-                    reservation1.setNumeroProf(numero);
-                    reservation1.setDateCreation(timestamp);
-                    if(!(ActionAboutReservation.testReservation(reservation1, Controller.listReservation))){
-                        ActionAboutReservation.setDataFromFirebase(reservation1, context, dialog);
-                    }else{
-                        informError("Vous chevauchez une autre reservation veuillez modifier vos horaires",context);
-                        dialog.dismiss();
-                    }
-                }
-
-
             }
+
+
+
+            if(data && data1 && data2 && data3 && data4 && data5 && data6){
+                Date dateCreation = new Date();
+                Timestamp timestamp = new Timestamp(dateCreation);
+                Reservation reservation1 = new Reservation("res1", gradeProf, nom, reservation, date, heure_deb, heure_f, false);
+                reservation1.setNumeroProf(numero);
+                reservation1.setDateCreation(timestamp);
+                if(!(ActionAboutReservation.testReservation(reservation1, Controller.listReservation))){
+                    ActionAboutReservation.setDataFromFirebase(reservation1, context, dialog);
+                }else{
+                    informError("Vous chevauchez une autre reservation veuillez modifier vos horaires",context);
+                    dialog.dismiss();
+                }
+            }
+
+
         });
 
         dialog.show();

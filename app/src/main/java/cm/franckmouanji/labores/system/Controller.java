@@ -4,6 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,11 +17,19 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import cm.franckmouanji.labores.BuildConfig;
+import cm.franckmouanji.labores.firebase.Firestore;
 import cm.franckmouanji.labores.model.Reservation;
 
-public class Controller {
+public class Controller extends Firestore {
     public static List<Reservation> listReservation = new ArrayList<>();
     public static List<Reservation> listOldReservation = new ArrayList<>();
+
+    private static final String TAG = "Controller";
+    private static final String FILE_NAME = "user_Information";
+    private static final String COLLECTION_VERSION = "System";
+    private static final String DOCUMENT_VERSION = "versionSystem";
+    private static final String FIELD_VERSION = "version";
 
 
     public static boolean verifNumero(String numero){
@@ -34,9 +45,7 @@ public class Controller {
 //            }
 
             if(tab[0].equals("6")){
-                if(tab[1].equals("5") || tab[1].equals("8") || tab[1].equals("7") || tab[1].equals("9") || tab[1].equals("6")){
-                    return true;
-                }
+                return tab[1].equals("5") || tab[1].equals("8") || tab[1].equals("7") || tab[1].equals("9") || tab[1].equals("6");
             }
         }
 
@@ -44,8 +53,16 @@ public class Controller {
     }
 
 
-    private static final String TAG = "Controller";
-    private static final String FILE_NAME = "user_Information";
+    public static void veriVersion(Context context){
+        getCollection(COLLECTION_VERSION).document(DOCUMENT_VERSION).get().addOnSuccessListener(documentSnapshot -> {
+            String local_version = documentSnapshot.getString(FIELD_VERSION);
+
+            assert local_version != null;
+            if(!(local_version.equals(BuildConfig.VERSION_NAME))){
+                DialogInformAdd.updateErrorDialog(context);
+            }
+        });
+    }
 
 
     private static boolean verif_file_exist(Context context){
@@ -73,11 +90,9 @@ public class Controller {
             try {
                 fileOutputStream = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
                 fileOutputStream.write(statut.getBytes());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 if (fileOutputStream != null){
                     try {
                         fileOutputStream.close();
@@ -93,11 +108,9 @@ public class Controller {
             try {
                 fileOutputStream = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
                 fileOutputStream.write(contenu_ecrit.getBytes());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 if (fileOutputStream != null){
                     try {
                         fileOutputStream.close();
