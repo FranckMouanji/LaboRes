@@ -5,15 +5,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import cm.franckmouanji.labores.R;
 
 public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.ViewHolder> {
 
-    private String[] localDateSet;
-    private String[] localNomProfSet;
-    private String[] localHoraire;
+    private final String[] localDateSet;
+    private final String[] localNomProfSet;
+    private final String[] localHoraire;
 
 
     /**
@@ -29,9 +30,9 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             super(view);
             // Define click listener for the ViewHolder's View
 
-            date = (TextView) view.findViewById(R.id.date);
-            nom_prof = (TextView) view.findViewById(R.id.nom_prof);
-            plage_horaire = (TextView) view.findViewById(R.id.plage_horaire);
+            date = view.findViewById(R.id.date);
+            nom_prof = view.findViewById(R.id.nom_prof);
+            plage_horaire = view.findViewById(R.id.plage_horaire);
         }
 
         public TextView getdate() {
@@ -59,6 +60,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
     }
 
     // Create new views (invoked by the layout manager)
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item

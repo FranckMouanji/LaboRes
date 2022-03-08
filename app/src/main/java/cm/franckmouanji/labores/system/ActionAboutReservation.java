@@ -7,15 +7,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +23,7 @@ import cm.franckmouanji.labores.model.Reservation;
 
 public class ActionAboutReservation extends Firestore {
 
-    private static String COLLECTION_RESERVATION = "Reservation";
+    private static final String COLLECTION_RESERVATION = "Reservation";
 
     public static CollectionReference getReservationCollection(){
         return getCollection(COLLECTION_RESERVATION);
@@ -47,21 +43,6 @@ public class ActionAboutReservation extends Firestore {
         });
     }
 
-    private static void chargeData(ArrayList<Reservation> list, ArrayList<Reservation> old, Context context, Dialog dialog, String collectionName){
-        ProgressDialog progressDialog = ProgressDialog.show(context, null, "un instant");
-        progressDialog.show();
-        getAllData(collectionName).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
-    }
 
 
 

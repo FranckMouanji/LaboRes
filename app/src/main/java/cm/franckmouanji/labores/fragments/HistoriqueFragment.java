@@ -7,18 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import cm.franckmouanji.labores.R;
-import cm.franckmouanji.labores.adapter.ReservationAdapter;
 import cm.franckmouanji.labores.databinding.FragmentHistoriqueBinding;
 import cm.franckmouanji.labores.system.ActionAboutReservation;
 import cm.franckmouanji.labores.system.Controller;
@@ -38,12 +32,7 @@ public class HistoriqueFragment extends Fragment {
         View root = binding.getRoot();
 
         initViews(root);
-        registration = ActionAboutReservation.getReservationCollection().addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                ActionAboutReservation.chargeOldReservationData(getContext(), item_list_historique, emptyOld, Controller.listOldReservation);
-            }
-        });
+        registration = ActionAboutReservation.getReservationCollection().addSnapshotListener((queryDocumentSnapshots, e) -> ActionAboutReservation.chargeOldReservationData(getContext(), item_list_historique, emptyOld, Controller.listOldReservation));
 
         return root;
     }

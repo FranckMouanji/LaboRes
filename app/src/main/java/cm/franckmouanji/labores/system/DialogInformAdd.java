@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.text.format.DateFormat;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -17,15 +16,14 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.Timestamp;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
 
 import cm.franckmouanji.labores.R;
 import cm.franckmouanji.labores.model.Reservation;
-import com.google.firebase.Timestamp;
-
-import java.util.Date;
-import java.util.Objects;
 
 
 public class DialogInformAdd {

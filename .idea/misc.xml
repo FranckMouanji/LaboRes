@@ -25,13 +25,23 @@
         <entry key="..\:/Android/project/LaboRes/app/src/main/res/layout/spinner_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Android/project/LaboRes/app/src/main/res/menu/activity_main_drawer.xml" value="0.20416666666666666" />
         <entry key="..\:/Android/project/LaboRes/app/src/main/res/menu/main.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/activity_login.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/add_reservation.xml" value="0.15760869565217392" />
+        <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/activity_home.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/activity_show_item.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/add_reservation.xml" value="0.1" />
+        <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/content_main.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/error_connexion.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/fragment_a_propos.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/fragment_historique.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/inform_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/item_model.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/nav_header_main.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/option_item.xml" value="0.15760869565217392" />
+        <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/spinner_dropdown_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/spinner_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/layout/update_error.xml" value="0.1" />
+        <entry key="..\:/Users/Franck Mouanji/StudioProjects/LaboRes/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.167" />
       </map>
     </option>
   </component>

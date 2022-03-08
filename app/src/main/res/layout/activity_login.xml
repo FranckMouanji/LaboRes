@@ -21,7 +21,7 @@
             android:id="@+id/log_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="nom d'utilisateur"
+            android:hint="@string/nom_d_utilisateur"
             app:hintTextColor="@color/white"
             android:textColorHint="@color/white"
             android:focusableInTouchMode="true"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             app:hintTextColor="@color/white"
             android:textColorHint="@color/white"
-            android:hint="mot de passe"
+            android:hint="@string/mot_de_passe"
             app:passwordToggleEnabled="true"
             android:transitionName="password_tran"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -62,7 +62,7 @@
             android:textColor="@color/white"
             android:foreground="@android:color/transparent"
             android:background="@android:color/transparent"
-            android:text="envoyer"
+            android:text="@string/envoyer"
             />
 
     </LinearLayout>

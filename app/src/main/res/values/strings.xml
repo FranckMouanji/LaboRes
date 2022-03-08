@@ -24,12 +24,29 @@
         <item>Docteur</item>
         <item>Doctorant</item>
     </array>
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="image_wifi">image wifi</string>
-    <string name="verifier_votre_connexion_internet">Verifier votre connexion internet</string>
+    <string name="verifier_votre_connexion_internet">Vérifier votre connexion internet</string>
     <string name="ok">OK</string>
-    <string name="image_de_mise_a_jour">image de mise a jour</string>
+    <string name="image_de_mise_a_jour">image de mise à jour</string>
     <string name="veuillez_mettre_a_jour_l_application">Veuillez mettre a jour l\'application</string>
+    <string name="nom_d_utilisateur">nom d\'utilisateur</string>
+    <string name="mot_de_passe">mot de passe</string>
+    <string name="envoyer">envoyer</string>
+    <string name="image_du_logo">image du logo</string>
+    <string name="votre_grade">Votre grade</string>
+    <string name="votre_nom">Votre nom</string>
+    <string name="votre_numero_de_t_l_phone">Votre numero de téléphone</string>
+    <string name="motif_de_reservation">Motif de réservation</string>
+    <string name="date_de_reservation">Date de réservation</string>
+    <string name="heure_de_debut">Heure de début</string>
+    <string name="heure_de_fin">Heure de fin</string>
+    <string name="ajouter">ajouter</string>
+    <string name="annuler">annuler</string>
+    <string name="application_pour_la_reservation_du_laboratoire_de_mathematique_informatique">Application pour la réservation du laboratoire de mathématique et informatique</string>
+    <string name="version_1_0">version 1.0</string>
+    <string name="liste_des_anciennes_reservations">Liste des anciennes réservations</string>
+    <string name="aucune_reservation">Aucune réservation</string>
+    <string name="liste_des_reservations">Liste des réservations</string>
+    <string name="boutton_floatant">bouton flottant</string>
+    <string name="reservation_annuler">réservation annuler</string>
 </resources>

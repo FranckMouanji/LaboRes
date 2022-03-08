@@ -4,24 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import cm.franckmouanji.labores.R;
-import cm.franckmouanji.labores.activities.HomeActivity;
-import cm.franckmouanji.labores.adapter.ReservationAdapter;
 import cm.franckmouanji.labores.databinding.FragmentHomeBinding;
 import cm.franckmouanji.labores.system.ActionAboutReservation;
 import cm.franckmouanji.labores.system.Controller;
@@ -42,22 +34,12 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        registration = ActionAboutReservation.getReservationCollection().addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                ActionAboutReservation.chargeNewReservationData(getContext(), item_list, empty, Controller.listReservation);
-            }
-        });
+        registration = ActionAboutReservation.getReservationCollection().addSnapshotListener((queryDocumentSnapshots, e) -> ActionAboutReservation.chargeNewReservationData(getContext(), item_list, empty, Controller.listReservation));
 
         initViews(root);
 
 
-        addReservation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogInformAdd.addReservation(getContext());
-            }
-        });
+        addReservation.setOnClickListener(view -> DialogInformAdd.addReservation(getContext()));
 
 
 

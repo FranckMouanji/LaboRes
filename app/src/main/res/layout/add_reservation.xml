@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:gravity="center"
@@ -13,25 +14,26 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            >
+            tools:ignore="UselessParent">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/grade_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                android:hint="votre grade"
+                android:hint="@string/votre_grade"
                 app:endIconTint="@color/white"
                 app:hintTextColor="@color/white"
                 android:textColorHint="@color/white"
                 app:layout_constraintVertical_bias="0.094"
                 app:layout_constraintWidth_percent=".9"
+                android:layout_marginBottom="30dp"
                 android:layout_marginTop="10dp">
 
                 <AutoCompleteTextView
@@ -39,8 +41,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
+                    android:textColor="@color/white"
                     android:inputType="none"
-                    />
+                    tools:ignore="LabelFor" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -48,7 +51,7 @@
                 android:id="@+id/nomProf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Votre nom"
+                android:hint="@string/votre_nom"
                 app:hintTextColor="@color/white"
                 android:textColorHint="@color/white"
                 android:focusableInTouchMode="true"
@@ -71,7 +74,7 @@
                 android:id="@+id/numProf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Votre numero de téléphone"
+                android:hint="@string/votre_numero_de_t_l_phone"
                 app:hintTextColor="@color/white"
                 android:textColorHint="@color/white"
                 android:layout_marginBottom="30dp"
@@ -93,13 +96,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                android:hint="Motif de reservation"
+                android:hint="@string/motif_de_reservation"
                 app:endIconTint="@color/white"
                 app:hintTextColor="@color/white"
                 android:textColorHint="@color/white"
                 app:layout_constraintVertical_bias="0.094"
                 app:layout_constraintWidth_percent=".9"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="30dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/type_reservation"
@@ -109,7 +113,7 @@
                     android:textColor="@color/white"
                     android:textColorHint="@color/white"
                     android:inputType="none"
-                    />
+                    tools:ignore="LabelFor" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -118,7 +122,7 @@
                 android:id="@+id/date_reservation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Date de reservation"
+                android:hint="@string/date_de_reservation"
                 app:hintTextColor="@color/white"
                 android:textColorHint="@color/white"
                 android:layout_marginBottom="30dp"
@@ -137,7 +141,7 @@
                 android:id="@+id/heure_debut"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Heure de debut"
+                android:hint="@string/heure_de_debut"
                 app:hintTextColor="@color/white"
                 android:textColorHint="@color/white"
                 android:layout_marginBottom="30dp"
@@ -156,7 +160,7 @@
                 android:id="@+id/heure_fin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Heure de fin"
+                android:hint="@string/heure_de_fin"
                 app:hintTextColor="@color/white"
                 android:textColorHint="@color/white"
                 android:layout_marginBottom="30dp"
@@ -183,23 +187,25 @@
                     android:id="@+id/add_reserve"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:textColor="@color/white"
                     android:foreground="@android:color/transparent"
                     android:background="@android:color/transparent"
                     android:layout_weight="1"
-                    android:text="ajouter"/>
+                    android:text="@string/ajouter"
+                    style="?android:attr/buttonBarButtonStyle" />
 
                 <Button
                     android:id="@+id/annuler"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:textColor="@color/white"
                     android:foreground="@android:color/transparent"
                     android:background="@android:color/transparent"
                     android:layout_weight="1"
-                    android:text="annuler"/>
+                    android:text="@string/annuler"
+                    style="?android:attr/buttonBarButtonStyle" />
 
             </LinearLayout>
 

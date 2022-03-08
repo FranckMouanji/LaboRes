@@ -1,11 +1,7 @@
 package cm.franckmouanji.labores.system;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
-
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -40,9 +36,6 @@ public class Controller extends Firestore {
                 tab[i] = String.valueOf(numero.charAt(i));
             }
 
-//            for(int i=0; i<taille; i++){
-//                Log.i("numero", tab[i]);
-//            }
 
             if(tab[0].equals("6")){
                 return tab[1].equals("5") || tab[1].equals("8") || tab[1].equals("7") || tab[1].equals("9") || tab[1].equals("6");
