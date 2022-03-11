@@ -1,9 +1,12 @@
 package cm.franckmouanji.labores.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import cm.franckmouanji.labores.R;
+import cm.franckmouanji.labores.activities.ShowItem;
 import cm.franckmouanji.labores.databinding.FragmentHistoriqueBinding;
 import cm.franckmouanji.labores.system.ActionAboutReservation;
 import cm.franckmouanji.labores.system.Controller;
@@ -20,7 +24,7 @@ import cm.franckmouanji.labores.system.Controller;
 public class HistoriqueFragment extends Fragment {
 
     private FragmentHistoriqueBinding binding;
-    private RecyclerView item_list_historique;
+    private ListView item_list_historique;
     private TextView emptyOld;
     ListenerRegistration registration;
 
@@ -32,8 +36,19 @@ public class HistoriqueFragment extends Fragment {
         View root = binding.getRoot();
 
         initViews(root);
+
+
         registration = ActionAboutReservation.getReservationCollection().addSnapshotListener((queryDocumentSnapshots, e) -> ActionAboutReservation.chargeOldReservationData(getContext(), item_list_historique, emptyOld, Controller.listOldReservation));
 
+        item_list_historique.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getContext(), ShowItem.class);
+                intent.putExtra("idR", String.valueOf(i));
+                intent.putExtra("source", "history");
+                requireActivity().startActivity(intent);
+            }
+        });
         return root;
     }
 
@@ -46,5 +61,11 @@ public class HistoriqueFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        registration = ActionAboutReservation.getReservationCollection().addSnapshotListener((queryDocumentSnapshots, e) -> ActionAboutReservation.chargeOldReservationData(getContext(), item_list_historique, emptyOld, Controller.listOldReservation));
     }
 }

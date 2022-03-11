@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@color/white"
     tools:context=".activities.LoginActivity">
 
     <LinearLayout
@@ -22,8 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/nom_d_utilisateur"
-            app:hintTextColor="@color/white"
-            android:textColorHint="@color/white"
+            app:hintTextColor="@color/black"
+            android:textColorHint="@color/black"
             android:focusableInTouchMode="true"
             android:layout_marginBottom="30dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -31,7 +31,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:inputType="textEmailAddress"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -40,8 +40,8 @@
             android:id="@+id/log_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:hintTextColor="@color/white"
-            android:textColorHint="@color/white"
+            app:hintTextColor="@color/black"
+            android:textColorHint="@color/black"
             android:hint="@string/mot_de_passe"
             app:passwordToggleEnabled="true"
             android:transitionName="password_tran"
@@ -50,18 +50,17 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:inputType="textPassword"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/log_send"
+            android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:foreground="@android:color/transparent"
-            android:background="@android:color/transparent"
             android:text="@string/envoyer"
             />
 

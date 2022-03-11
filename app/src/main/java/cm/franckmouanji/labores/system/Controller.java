@@ -117,7 +117,7 @@ public class Controller extends Firestore {
 
     //read information of file
 
-    private static String take_information_of_file_users(Context context){
+    public static String take_information_of_file_users(Context context){
         String information_user_take;
 
         FileInputStream fis = null;

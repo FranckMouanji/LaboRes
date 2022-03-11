@@ -8,7 +8,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:padding="30dp"
-    android:background="@drawable/bg"
+    android:background="@color/white"
     android:layout_height="wrap_content">
 
 
@@ -28,9 +28,9 @@
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:hint="@string/votre_grade"
-                app:endIconTint="@color/white"
-                app:hintTextColor="@color/white"
-                android:textColorHint="@color/white"
+                app:endIconTint="@color/black"
+                app:hintTextColor="@color/black"
+                android:textColorHint="@color/black"
                 app:layout_constraintVertical_bias="0.094"
                 app:layout_constraintWidth_percent=".9"
                 android:layout_marginBottom="30dp"
@@ -41,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:inputType="none"
                     tools:ignore="LabelFor" />
 
@@ -52,17 +52,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/votre_nom"
-                app:hintTextColor="@color/white"
-                android:textColorHint="@color/white"
+                app:hintTextColor="@color/black"
+                android:textColorHint="@color/black"
                 android:focusableInTouchMode="true"
                 android:layout_marginBottom="30dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:textColorHint="@color/white"
+                    android:textColorHint="@color/black"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:inputType="text"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -75,16 +75,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/votre_numero_de_t_l_phone"
-                app:hintTextColor="@color/white"
-                android:textColorHint="@color/white"
+                app:hintTextColor="@color/black"
+                android:textColorHint="@color/black"
                 android:layout_marginBottom="30dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:textColorHint="@color/white"
+                    android:textColorHint="@color/black"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:inputType="phone"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -97,9 +97,9 @@
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:hint="@string/motif_de_reservation"
-                app:endIconTint="@color/white"
-                app:hintTextColor="@color/white"
-                android:textColorHint="@color/white"
+                app:endIconTint="@color/black"
+                app:hintTextColor="@color/black"
+                android:textColorHint="@color/black"
                 app:layout_constraintVertical_bias="0.094"
                 app:layout_constraintWidth_percent=".9"
                 android:layout_marginTop="10dp"
@@ -110,8 +110,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
                     android:inputType="none"
                     tools:ignore="LabelFor" />
 
@@ -123,8 +123,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/date_de_reservation"
-                app:hintTextColor="@color/white"
-                android:textColorHint="@color/white"
+                app:hintTextColor="@color/black"
+                android:textColorHint="@color/black"
                 android:layout_marginBottom="30dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -132,7 +132,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:inputType="date"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -142,8 +142,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/heure_de_debut"
-                app:hintTextColor="@color/white"
-                android:textColorHint="@color/white"
+                app:hintTextColor="@color/black"
+                android:textColorHint="@color/black"
                 android:layout_marginBottom="30dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -151,7 +151,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:inputType="time"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -161,8 +161,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/heure_de_fin"
-                app:hintTextColor="@color/white"
-                android:textColorHint="@color/white"
+                app:hintTextColor="@color/black"
+                android:textColorHint="@color/black"
                 android:layout_marginBottom="30dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -170,7 +170,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:inputType="time"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -188,7 +188,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:foreground="@android:color/transparent"
                     android:background="@android:color/transparent"
                     android:layout_weight="1"
@@ -200,7 +200,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:foreground="@android:color/transparent"
                     android:background="@android:color/transparent"
                     android:layout_weight="1"

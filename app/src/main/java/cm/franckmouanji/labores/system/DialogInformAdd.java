@@ -213,7 +213,8 @@ public class DialogInformAdd {
             if(data && data1 && data2 && data3 && data4 && data5 && data6){
                 Date dateCreation = new Date();
                 Timestamp timestamp = new Timestamp(dateCreation);
-                Reservation reservation1 = new Reservation("res1", gradeProf, nom, reservation, date, heure_deb, heure_f, false);
+                String id = "res"+ (Controller.listReservation.size() + Controller.listOldReservation.size());
+                Reservation reservation1 = new Reservation(id, gradeProf, nom, reservation, date, heure_deb, heure_f, false);
                 reservation1.setNumeroProf(numero);
                 reservation1.setDateCreation(timestamp);
                 if(!(ActionAboutReservation.testReservation(reservation1, Controller.listReservation))){

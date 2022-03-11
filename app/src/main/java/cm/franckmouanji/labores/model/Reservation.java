@@ -183,11 +183,11 @@ public class Reservation implements Serializable {
 
         if (this.equals(that)) {
             return true;
-        }else if(imbriquer(heureDeb1, heureFin1, heureDeb2, heureFin2)){
-            return true;
-        } else {
+        }else {
             if (this.dateReservation.equals(that.dateReservation)) {
-                if (interval(heureDeb2, heureDeb1, heureFin1)) {
+                if(imbriquer(heureDeb1, heureFin1, heureDeb2, heureFin2)){
+                    return true;
+                } else if (interval(heureDeb2, heureDeb1, heureFin1)) {
                     return true;
                 }else if(interval(heureDeb1, heureDeb2, heureFin2)){
                     return true;
