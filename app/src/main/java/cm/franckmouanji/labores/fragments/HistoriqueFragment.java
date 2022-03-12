@@ -37,14 +37,16 @@ public class HistoriqueFragment extends Fragment {
 
         initViews(root);
 
-
-        registration = ActionAboutReservation.getReservationCollection().addSnapshotListener((queryDocumentSnapshots, e) -> ActionAboutReservation.chargeOldReservationData(getContext(), item_list_historique, emptyOld, Controller.listOldReservation));
+        if(getContext()!=null) {
+            registration = ActionAboutReservation.getReservationCollection().addSnapshotListener((queryDocumentSnapshots, e) -> ActionAboutReservation.chargeOldReservationData(getContext(), item_list_historique, emptyOld, Controller.listOldReservation));
+        }
 
         item_list_historique.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView textView = view.findViewById(R.id.id_prof);
                 Intent intent = new Intent(getContext(), ShowItem.class);
-                intent.putExtra("idR", String.valueOf(i));
+                intent.putExtra("idR", textView.getText().toString());
                 intent.putExtra("source", "history");
                 requireActivity().startActivity(intent);
             }

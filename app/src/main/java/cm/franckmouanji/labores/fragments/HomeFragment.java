@@ -47,19 +47,20 @@ public class HomeFragment extends Fragment {
         initViews(root);
 
 
-        registration = ActionAboutReservation.getReservationCollection().addSnapshotListener((queryDocumentSnapshots, e) -> ActionAboutReservation.chargeNewReservationData(getContext(), item_list, empty, Controller.listReservation));
-
+        if(getContext()!=null){
+            registration = ActionAboutReservation.getReservationCollection().addSnapshotListener((queryDocumentSnapshots, e) -> ActionAboutReservation.chargeNewReservationData(getContext(), item_list, empty, Controller.listReservation));
+        }
 
         addReservation.setOnClickListener(view -> DialogInformAdd.addReservation(getContext()));
 
         item_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView textView = view.findViewById(R.id.id_prof);
                 Intent intent = new Intent(getContext(), ShowItem.class);
-                intent.putExtra("idR", String.valueOf(i));
+                intent.putExtra("idR", textView.getText().toString());
                 intent.putExtra("source", "home");
                 requireActivity().startActivity(intent);
-                requireActivity().finish();
             }
         });
 

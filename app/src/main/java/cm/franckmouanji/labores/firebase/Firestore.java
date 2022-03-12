@@ -55,6 +55,10 @@ public class Firestore {
         return getCollection(collectionName).whereEqualTo(field, value).get();
     }
 
+    protected static Task<QuerySnapshot> getParticularData(String collectionName, String field, boolean value){
+        return getCollection(collectionName).whereEqualTo(field, value).get();
+    }
+
     protected static Task<QuerySnapshot> getParticularDataOdrer(String collectionName, String field, String value, String fieldOrder){
         return getCollection(collectionName).orderBy(fieldOrder, Query.Direction.DESCENDING).whereEqualTo(field, value).get();
     }

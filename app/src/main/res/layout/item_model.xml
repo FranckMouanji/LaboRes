@@ -6,6 +6,15 @@
     android:layout_height="70dp">
 
     <TextView
+        android:id="@+id/id_prof"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:visibility="gone"
+        />
+
+    <TextView
         android:id="@+id/nom_prof"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"

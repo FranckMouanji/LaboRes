@@ -20,12 +20,59 @@ import cm.franckmouanji.labores.model.Reservation;
 public class Controller extends Firestore {
     public static List<Reservation> listReservation = new ArrayList<>();
     public static List<Reservation> listOldReservation = new ArrayList<>();
+    public static boolean first = true;
 
     private static final String TAG = "Controller";
     private static final String FILE_NAME = "user_Information";
     private static final String COLLECTION_VERSION = "System";
     private static final String DOCUMENT_VERSION = "versionSystem";
     private static final String FIELD_VERSION = "version";
+
+
+
+    private static boolean id_exist(String id){
+        for(int i=0; i<listReservation.size(); i++){
+            if(listReservation.get(i).getId().equals(id)){
+                return true;
+            }
+        }
+        for(int i=0; i<listOldReservation.size(); i++){
+            if(listOldReservation.get(i).getId().equals(id)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static String getId(){
+        int id=0;
+        while(id_exist("res"+id)){
+            id++;
+        }
+
+        return "res"+id;
+    }
+
+    public static Reservation getNewReservation(String id){
+        for(int i=0; i<listReservation.size(); i++){
+            if(listReservation.get(i).getId().equals(id)){
+                return listReservation.get(i);
+            }
+        }
+
+        return null;
+    }
+
+    public static Reservation getOldReservation(String id){
+
+        for(int i=0; i<listOldReservation.size(); i++){
+            if(listOldReservation.get(i).getId().equals(id)){
+                return listOldReservation.get(i);
+            }
+        }
+        return null;
+    }
 
 
     public static boolean verifNumero(String numero){

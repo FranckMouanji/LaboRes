@@ -36,13 +36,13 @@ public class ShowItem extends AppCompatActivity {
         setContentView(R.layout.activity_show_item);
 
         initViews();
-        int id = 0;
+        String id = "";
         String source = "";
 
         Intent intent = getIntent();
 
         if(intent.hasExtra("idR")){
-            id = Integer.parseInt(intent.getStringExtra("idR"));
+            id = intent.getStringExtra("idR");
         }
 
         if(intent.hasExtra("source")){
@@ -52,22 +52,20 @@ public class ShowItem extends AppCompatActivity {
         Reservation reservation;
         if(source.equals("home")){
             delete.setVisibility(View.GONE);
-            reservation = Controller.listReservation.get(id);
+            reservation = Controller.getNewReservation(id);
         }else{
             check.setVisibility(View.GONE);
-            reservation = Controller.listOldReservation.get(id);
+            reservation = Controller.getOldReservation(id);
         }
 
 
+        assert reservation != null;
         chargeTextView(reservation);
 
-        int finalId = id;
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActionAboutReservation.updateReservation(reservation.getId(), finalId);
-                Intent intent = new Intent(ShowItem.this, HomeActivity.class);
-                startActivity(intent);
+                ActionAboutReservation.updateReservation(reservation.getId());
                 finish();
             }
         });
@@ -75,7 +73,7 @@ public class ShowItem extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActionAboutReservation.deleteReservation(reservation.getId(),finalId);
+                ActionAboutReservation.deleteReservation(reservation.getId());
                 finish();
             }
         });
@@ -112,5 +110,11 @@ public class ShowItem extends AppCompatActivity {
         if(Controller.take_information_of_file_users(ShowItem.this).equalsIgnoreCase("fs")){
             outils_admin.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

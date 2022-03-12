@@ -18,8 +18,10 @@ import android.widget.TimePicker;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.Timestamp;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import cm.franckmouanji.labores.R;
@@ -213,7 +215,7 @@ public class DialogInformAdd {
             if(data && data1 && data2 && data3 && data4 && data5 && data6){
                 Date dateCreation = new Date();
                 Timestamp timestamp = new Timestamp(dateCreation);
-                String id = "res"+ (Controller.listReservation.size() + Controller.listOldReservation.size());
+                String id = Controller.getId();
                 Reservation reservation1 = new Reservation(id, gradeProf, nom, reservation, date, heure_deb, heure_f, false);
                 reservation1.setNumeroProf(numero);
                 reservation1.setDateCreation(timestamp);
@@ -233,6 +235,7 @@ public class DialogInformAdd {
 //        Toast.makeText(context, "add student exist", Toast.LENGTH_SHORT).show();
 
     }
+
 
     public static void showDatePickerDialog(Context context, final EditText editText){
         DatePickerDialog datePickerDialog = new DatePickerDialog(

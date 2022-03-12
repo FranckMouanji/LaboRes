@@ -49,100 +49,109 @@ public class ActionAboutReservation extends Firestore {
 
 
 
+
     public static void chargeNewReservationData(final Context context, final ListView list, final TextView error, final List<Reservation> liste){
         final List<Reservation> reservations = new ArrayList<>();
-        liste.clear();
-        Firestore.getAllData(COLLECTION_RESERVATION).addOnSuccessListener(queryDocumentSnapshots -> {
-            Reservation reservation = null;
-            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                reservation =documentSnapshot.toObject(Reservation.class);
-                if(!(reservation.isCheck())){
-                    reservations.add(reservation);
-                    liste.add(reservation);
-                }
-            }
-
-            if (reservations.size() == 0){
-                error.setVisibility(View.VISIBLE);
-                list.setVisibility(View.GONE);
-            }else {
-                error.setVisibility(View.GONE);
-                list.setVisibility(View.VISIBLE);
-
-                String []date = new String[reservations.size()];
-                String []heure = new String[reservations.size()];
-                String []nom = new String[reservations.size()];
-
-                Collections.sort(liste, Reservation.comparatorDate);
-                Collections.sort(reservations, Reservation.comparatorDate);
-
-                for (int i=0; i<date.length; i++){
-                    date[i] = reservations.get(i).getDateReservation();
-                    heure[i] = reservations.get(i).getHeureDebut() + "-" + reservation.getHeureFin();
-                    if(reservations.get(i).getGrade().equals("Professeur") || reservations.get(i).getGrade().equals("Professor")){
-                        nom[i] = "Pr "+ reservations.get(i).getNomProf();
-                    }else if(reservations.get(i).getGrade().equals("Docteur") || reservations.get(i).getGrade().equals("Doctor")){
-                        nom[i] = "Dr "+ reservations.get(i).getNomProf();
-                    }else{
-                        nom[i] = "Mr "+ reservations.get(i).getNomProf();
+        if(context!=null){
+            Firestore.getAllData(COLLECTION_RESERVATION).addOnSuccessListener(queryDocumentSnapshots -> {
+                Reservation reservation = null;
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                    reservation =documentSnapshot.toObject(Reservation.class);
+                    if(!(reservation.isCheck())){
+                        reservations.add(reservation);
+                        liste.add(reservation);
                     }
                 }
 
+                if (reservations.size() == 0){
+                    error.setVisibility(View.VISIBLE);
+                    list.setVisibility(View.GONE);
+                }else {
+                    error.setVisibility(View.GONE);
+                    list.setVisibility(View.VISIBLE);
+
+                    String []date = new String[reservations.size()];
+                    String []id = new String[reservations.size()];
+                    String []heure = new String[reservations.size()];
+                    String []nom = new String[reservations.size()];
+
+                    Collections.sort(liste, Reservation.comparatorDate);
+                    Collections.sort(reservations, Reservation.comparatorDate);
+
+                    for (int i=0; i<date.length; i++){
+                        date[i] = reservations.get(i).getDateReservation();
+                        id[i] = reservations.get(i).getId();
+                        heure[i] = reservations.get(i).getHeureDebut() + "-" + reservation.getHeureFin();
+                        if(reservations.get(i).getGrade().equals("Professeur") || reservations.get(i).getGrade().equals("Professor")){
+                            nom[i] = "Pr "+ reservations.get(i).getNomProf();
+                        }else if(reservations.get(i).getGrade().equals("Docteur") || reservations.get(i).getGrade().equals("Doctor")){
+                            nom[i] = "Dr "+ reservations.get(i).getNomProf();
+                        }else{
+                            nom[i] = "Mr "+ reservations.get(i).getNomProf();
+                        }
+                    }
 
 
-                ReservationAdapter adapter = new ReservationAdapter(context,nom,date,heure);
 
-                list.setAdapter(adapter);
-            }
-        });
+                    ReservationAdapter adapter = new ReservationAdapter(context,id, nom,date,heure);
+
+                    list.setAdapter(adapter);
+                    Controller.first = false;
+                }
+            });
+        }
     }
 
 
     public static void chargeOldReservationData(final Context context, final ListView list, final TextView error, final List<Reservation> liste){
         final List<Reservation> reservations = new ArrayList<>();
-        liste.clear();
-        Firestore.getAllData(COLLECTION_RESERVATION).addOnSuccessListener(queryDocumentSnapshots -> {
-            Reservation reservation = null;
-            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                reservation =documentSnapshot.toObject(Reservation.class);
-                if(reservation.isCheck()){
-                    reservations.add(reservation);
-                    liste.add(reservation);
-                }
-            }
-
-            if (reservations.size() == 0){
-                error.setVisibility(View.VISIBLE);
-                list.setVisibility(View.GONE);
-            }else {
-                error.setVisibility(View.GONE);
-                list.setVisibility(View.VISIBLE);
-
-                String []date = new String[reservations.size()];
-                String []heure = new String[reservations.size()];
-                String []nom = new String[reservations.size()];
-
-                Collections.sort(liste, Reservation.comparatorDate);
-                Collections.sort(reservations, Reservation.comparatorDate);
-
-                for (int i=0; i<date.length; i++){
-                    date[i] = reservations.get(i).getDateReservation();
-                    heure[i] = reservations.get(i).getHeureDebut() + "-" + reservation.getHeureFin();
-                    if(reservations.get(i).getGrade().equals("Professeur") || reservations.get(i).getGrade().equals("Professor")){
-                        nom[i] = "Pr "+ reservations.get(i).getNomProf();
-                    }else if(reservations.get(i).getGrade().equals("Docteur") || reservations.get(i).getGrade().equals("Doctor")){
-                        nom[i] = "Dr "+ reservations.get(i).getNomProf();
-                    }else{
-                        nom[i] = "Mr "+ reservations.get(i).getNomProf();
+        if (context != null) {
+            Firestore.getAllData(COLLECTION_RESERVATION).addOnSuccessListener(queryDocumentSnapshots -> {
+                Reservation reservation = null;
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                    reservation =documentSnapshot.toObject(Reservation.class);
+                    if(reservation.isCheck()){
+                        reservations.add(reservation);
+                        liste.add(reservation);
                     }
                 }
 
+                if (reservations.size() == 0){
+                    error.setVisibility(View.VISIBLE);
+                    list.setVisibility(View.GONE);
+                }else {
+                    error.setVisibility(View.GONE);
+                    list.setVisibility(View.VISIBLE);
 
 
-                ReservationAdapter adapter = new ReservationAdapter(context,nom,date,heure);
-                list.setAdapter(adapter);
-            }
-        });
+                    String []date = new String[reservations.size()];
+                    String []id = new String[reservations.size()];
+                    String []heure = new String[reservations.size()];
+                    String []nom = new String[reservations.size()];
+
+                    Collections.sort(liste, Reservation.comparatorDate);
+                    Collections.sort(reservations, Reservation.comparatorDate);
+
+                    for (int i=0; i<date.length; i++){
+                        date[i] = reservations.get(i).getDateReservation();
+                        id[i] = reservations.get(i).getId();
+                        heure[i] = reservations.get(i).getHeureDebut() + "-" + reservation.getHeureFin();
+                        if(reservations.get(i).getGrade().equals("Professeur") || reservations.get(i).getGrade().equals("Professor")){
+                            nom[i] = "Pr "+ reservations.get(i).getNomProf();
+                        }else if(reservations.get(i).getGrade().equals("Docteur") || reservations.get(i).getGrade().equals("Doctor")){
+                            nom[i] = "Dr "+ reservations.get(i).getNomProf();
+                        }else{
+                            nom[i] = "Mr "+ reservations.get(i).getNomProf();
+                        }
+                    }
+
+
+
+                    ReservationAdapter adapter = new ReservationAdapter(context,id, nom,date,heure);
+                    list.setAdapter(adapter);
+                }
+            });
+        }
     }
 
     public static boolean testReservation(Reservation reservation, List<Reservation>list){
@@ -154,7 +163,7 @@ public class ActionAboutReservation extends Firestore {
         return false;
     }
 
-    public static void updateReservation(String id_res, int i){
+    public static void updateReservation(String id_res){
         getParticularData(COLLECTION_RESERVATION, "id", id_res).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -164,7 +173,7 @@ public class ActionAboutReservation extends Firestore {
         });
     }
 
-    public static void deleteReservation(String id_res, int i){
+    public static void deleteReservation(String id_res){
         getParticularData(COLLECTION_RESERVATION, "id", id_res).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
