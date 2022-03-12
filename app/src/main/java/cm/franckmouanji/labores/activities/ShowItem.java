@@ -107,7 +107,9 @@ public class ShowItem extends AppCompatActivity {
         check = findViewById(R.id.check);
         delete = findViewById(R.id.delete);
 
-        if(Controller.take_information_of_file_users(ShowItem.this).equalsIgnoreCase("fs")){
+        String user = Controller.take_information_of_file_users(ShowItem.this);
+
+        if(user.equalsIgnoreCase("fs")){
             outils_admin.setVisibility(View.GONE);
         }
     }

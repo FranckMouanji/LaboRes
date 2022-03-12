@@ -60,9 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }else{
-                    log_email.setError("vous avez entrer le mauvais email");
-                    log_email.requestFocus();
-                    log_password.setError("mot de passe incorrect");
+                    log_password.setError("verifier votre mail ou votre mot de passe");
                     log_password.requestFocus();
                 }
             }

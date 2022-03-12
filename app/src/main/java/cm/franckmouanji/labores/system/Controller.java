@@ -180,7 +180,7 @@ public class Controller extends Firestore {
         try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
             String line = reader.readLine();
             while (line != null) {
-                stringBuilder.append(line).append('\n');
+                stringBuilder.append(line);
                 line = reader.readLine();
             }
 
