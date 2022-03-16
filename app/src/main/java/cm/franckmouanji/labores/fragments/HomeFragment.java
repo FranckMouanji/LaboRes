@@ -8,24 +8,21 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.ListenerRegistration;
 
-import java.util.Objects;
+import java.io.FileNotFoundException;
 
 import cm.franckmouanji.labores.R;
 import cm.franckmouanji.labores.activities.ShowItem;
 import cm.franckmouanji.labores.databinding.FragmentHomeBinding;
-import cm.franckmouanji.labores.model.Reservation;
-import cm.franckmouanji.labores.system.ActionAboutReservation;
-import cm.franckmouanji.labores.system.Controller;
-import cm.franckmouanji.labores.system.DialogInformAdd;
+import cm.franckmouanji.labores.systeme.ActionAboutReservation;
+import cm.franckmouanji.labores.systeme.Controller;
+import cm.franckmouanji.labores.systeme.DialogInformAdd;
 
 public class HomeFragment extends Fragment {
 
@@ -34,6 +31,7 @@ public class HomeFragment extends Fragment {
     private TextView empty;
     ListenerRegistration registration;
     private FloatingActionButton addReservation;
+    private FloatingActionButton show_program;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +62,17 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        show_program.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Controller.createPdf("program", Controller.listReservation, getContext());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         return root;
     }
 
@@ -71,6 +80,7 @@ public class HomeFragment extends Fragment {
         item_list = root.findViewById(R.id.item_list);
         empty = root.findViewById(R.id.empty);
         addReservation = root.findViewById(R.id.add_reservation);
+        show_program = root.findViewById(R.id.show_program);
     }
 
     @Override

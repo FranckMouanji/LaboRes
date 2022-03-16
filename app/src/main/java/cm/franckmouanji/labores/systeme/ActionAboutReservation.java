@@ -1,4 +1,4 @@
-package cm.franckmouanji.labores.system;
+package cm.franckmouanji.labores.systeme;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -7,9 +7,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;

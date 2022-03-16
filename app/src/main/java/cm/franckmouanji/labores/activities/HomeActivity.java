@@ -15,8 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import cm.franckmouanji.labores.R;
 import cm.franckmouanji.labores.databinding.ActivityHomeBinding;
-import cm.franckmouanji.labores.system.Controller;
-import cm.franckmouanji.labores.system.DialogInformAdd;
+import cm.franckmouanji.labores.systeme.Controller;
+import cm.franckmouanji.labores.systeme.DialogInformAdd;
 
 public class HomeActivity extends AppCompatActivity {
 

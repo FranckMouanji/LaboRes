@@ -16,7 +16,7 @@ import com.squareup.okhttp.Response;
 
 
 import cm.franckmouanji.labores.R;
-import cm.franckmouanji.labores.system.Controller;
+import cm.franckmouanji.labores.systeme.Controller;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                Controller.haveStoragePermission(MainActivity.this);
+                Controller.getPlage();
                 if(verifConnexion()){
 
                     if(Controller.file_not_empty(MainActivity.this)){

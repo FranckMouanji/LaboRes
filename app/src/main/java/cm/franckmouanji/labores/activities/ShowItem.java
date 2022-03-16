@@ -4,18 +4,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 
 import cm.franckmouanji.labores.R;
 import cm.franckmouanji.labores.model.Reservation;
-import cm.franckmouanji.labores.system.ActionAboutReservation;
-import cm.franckmouanji.labores.system.Controller;
-import cm.franckmouanji.labores.system.DialogInformAdd;
+import cm.franckmouanji.labores.systeme.ActionAboutReservation;
+import cm.franckmouanji.labores.systeme.Controller;
 
 public class ShowItem extends AppCompatActivity {
     TextView text_view_nom;
@@ -78,6 +82,29 @@ public class ShowItem extends AppCompatActivity {
             }
         });
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date parse = null;
+        try {
+            parse = sdf.parse("14/3/2022");
+            Calendar c = Calendar.getInstance();
+            c.setTime(parse);
+
+            parse = sdf.parse("20/3/2022");
+            Calendar c1 = Calendar.getInstance();
+            c1.setTime(parse);
+
+            parse = sdf.parse("15/4/2022");
+            Calendar c2 = Calendar.getInstance();
+            c2.setTime(parse);
+
+//            Log.i("jour", String.valueOf(c.get(Calendar.DAY_OF_WEEK)));
+            Log.i("comp1", String.valueOf(c.compareTo(c2)));
+            Log.i("comp2", String.valueOf(c1.compareTo(c2)));
+            Log.i("comp3", String.valueOf(c.compareTo(c1)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -112,6 +139,8 @@ public class ShowItem extends AppCompatActivity {
         if(user.equalsIgnoreCase("fs")){
             outils_admin.setVisibility(View.GONE);
         }
+
+
     }
 
     @Override

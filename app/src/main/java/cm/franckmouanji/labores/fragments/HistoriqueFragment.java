@@ -11,15 +11,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.ListenerRegistration;
 
 import cm.franckmouanji.labores.R;
 import cm.franckmouanji.labores.activities.ShowItem;
 import cm.franckmouanji.labores.databinding.FragmentHistoriqueBinding;
-import cm.franckmouanji.labores.system.ActionAboutReservation;
-import cm.franckmouanji.labores.system.Controller;
+import cm.franckmouanji.labores.systeme.ActionAboutReservation;
+import cm.franckmouanji.labores.systeme.Controller;
 
 public class HistoriqueFragment extends Fragment {
 

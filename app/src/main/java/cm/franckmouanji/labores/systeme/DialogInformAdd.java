@@ -1,4 +1,4 @@
-package cm.franckmouanji.labores.system;
+package cm.franckmouanji.labores.systeme;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.text.format.DateFormat;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -18,10 +19,8 @@ import android.widget.TimePicker;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.Timestamp;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 import cm.franckmouanji.labores.R;
@@ -68,6 +67,100 @@ public class DialogInformAdd {
         dialog.show();
 
     }
+
+
+    public static void addPlageDialog(final Context context){
+
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.add_plage);
+        dialog.setCancelable(false);
+
+        //variable du layout
+        Button ajouter_plage = dialog.findViewById(R.id.ajouter_plage);
+        Button annuler_plage = dialog.findViewById(R.id.annuler_plage);
+
+        annuler_plage.setOnClickListener(view -> {
+            ((Activity)context).finish();
+            dialog.dismiss();
+        });
+
+        TextInputLayout date_debut = dialog.findViewById(R.id.date_debut);
+        TextInputLayout date_fin = dialog.findViewById(R.id.date_fin);
+        EditText editText = date_debut.getEditText();
+        EditText editText1 = date_fin.getEditText();
+
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog(context, editText);
+            }
+        });
+
+        editText1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog(context, editText1);
+            }
+        });
+
+        ajouter_plage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String date1 = editText.getText().toString();
+                String date2 = editText1.getText().toString();
+
+                boolean correctDate1, correctDate2;
+
+                if(date1.equals("")){
+                    correctDate1 = false;
+                    date_debut.setError("entrez une date");
+                    date_debut.requestFocus();
+                }else{
+                    correctDate1 = true;
+                    date_debut.setError("");
+                    date_debut.clearFocus();
+                }
+
+                if(date2.equals("")){
+                    correctDate2 = false;
+                    date_fin.setError("entrez une date");
+                    date_fin.requestFocus();
+                }else{
+                    correctDate2 = true;
+                    date_fin.setError("");
+                    date_fin.clearFocus();
+                }
+
+                if(correctDate1 && correctDate2){
+                    Calendar c1 = Controller.getCalendarForm(date1);
+                    Calendar c2 = Controller.getCalendarForm(date2);
+
+
+                    if (c1 != null && c2 != null) {
+                        if(c1.compareTo(c2) > 0){
+                            correctDate2 = false;
+                            date_fin.setError("la date de fin est avant la date de debut");
+                            date_fin.requestFocus();
+                        }else{
+                            date_fin.setError("");
+                            date_fin.clearFocus();
+                        }
+                    }
+                }
+
+                if(correctDate1 && correctDate2){
+                    Controller.setData(date1, date2);
+                }
+                
+                dialog.dismiss();
+            }
+        });
+
+
+        dialog.show();
+
+    }
+
 
     public static void addReservation(final Context context){
 

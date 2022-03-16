@@ -11,8 +11,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.Objects;
 
 import cm.franckmouanji.labores.R;
-import cm.franckmouanji.labores.system.Controller;
-import cm.franckmouanji.labores.system.DialogInformAdd;
+import cm.franckmouanji.labores.systeme.Controller;
+import cm.franckmouanji.labores.systeme.DialogInformAdd;
 
 public class LoginActivity extends AppCompatActivity {
 
