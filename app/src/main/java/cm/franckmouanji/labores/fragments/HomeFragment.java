@@ -16,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import java.io.FileNotFoundException;
+import java.text.ParseException;
 
 import cm.franckmouanji.labores.R;
 import cm.franckmouanji.labores.activities.ShowItem;
@@ -67,7 +68,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 try {
                     Controller.createPdf("program", Controller.listReservation, getContext());
-                } catch (FileNotFoundException e) {
+                } catch (FileNotFoundException | ParseException e) {
                     e.printStackTrace();
                 }
             }
@@ -81,6 +82,11 @@ public class HomeFragment extends Fragment {
         empty = root.findViewById(R.id.empty);
         addReservation = root.findViewById(R.id.add_reservation);
         show_program = root.findViewById(R.id.show_program);
+
+        String user = Controller.take_information_of_file_users(getContext());
+        if(user.equalsIgnoreCase("fs")){
+            addReservation.setVisibility(View.GONE);
+        }
     }
 
     @Override

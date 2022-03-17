@@ -82,29 +82,6 @@ public class ShowItem extends AppCompatActivity {
             }
         });
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date parse = null;
-        try {
-            parse = sdf.parse("14/3/2022");
-            Calendar c = Calendar.getInstance();
-            c.setTime(parse);
-
-            parse = sdf.parse("20/3/2022");
-            Calendar c1 = Calendar.getInstance();
-            c1.setTime(parse);
-
-            parse = sdf.parse("15/4/2022");
-            Calendar c2 = Calendar.getInstance();
-            c2.setTime(parse);
-
-//            Log.i("jour", String.valueOf(c.get(Calendar.DAY_OF_WEEK)));
-            Log.i("comp1", String.valueOf(c.compareTo(c2)));
-            Log.i("comp2", String.valueOf(c1.compareTo(c2)));
-            Log.i("comp3", String.valueOf(c.compareTo(c1)));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -136,7 +113,7 @@ public class ShowItem extends AppCompatActivity {
 
         String user = Controller.take_information_of_file_users(ShowItem.this);
 
-        if(user.equalsIgnoreCase("fs")){
+        if(user.equalsIgnoreCase("fs") || user.equalsIgnoreCase("fsprof")){
             outils_admin.setVisibility(View.GONE);
         }
 

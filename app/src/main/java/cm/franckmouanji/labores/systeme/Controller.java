@@ -264,7 +264,7 @@ public class Controller extends Firestore {
         }
     }
 
-    public static void createPdf(String fileName, List<Reservation> liste, Context context) throws FileNotFoundException{
+    public static void createPdf(String fileName, List<Reservation> liste, Context context) throws FileNotFoundException, ParseException {
         String filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
         String filnameRoot = fileName + ".pdf";
         File file = Controller.createOrGetFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), filnameRoot, "Labores");
@@ -299,12 +299,13 @@ public class Controller extends Firestore {
         }
     }
 
-    private static Table addDataToPdf(List<Reservation> liste){
-        float[] columnWidth = {200f, 200f, 200f, 200f, 200f, 200f, 200f};
+    private static Table addDataToPdf(List<Reservation> liste) throws ParseException {
+        float[] columnWidth = {200f, 200f, 200f, 200f, 200f, 200f, 200f, 200f};
         Table table = new Table(columnWidth);
         List<Reservation> semaine = new ArrayList<>();
         listSemaine(listReservation, semaine);
 
+        table.addCell(new Cell().add(new Paragraph("Horaire")));
         table.addCell(new Cell().add(new Paragraph("Lundi")));
         table.addCell(new Cell().add(new Paragraph("Mardi")));
         table.addCell(new Cell().add(new Paragraph("Mercredi")));
@@ -314,61 +315,22 @@ public class Controller extends Firestore {
         table.addCell(new Cell().add(new Paragraph("Dimanche")));
 
 
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
 
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
+        String mat[][] = new String[7][8];
+        initMatrice(mat, 7, 8);
+        formData(mat, semaine);
 
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
 
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
-        table.addCell(new Cell().add(new Paragraph(" ")));
+        for(int i=0; i< 7; i++){
+            table.addCell(new Cell().add(new Paragraph(mat[i][7])));
+            table.addCell(new Cell().add(new Paragraph(mat[i][0])));
+            table.addCell(new Cell().add(new Paragraph(mat[i][1])));
+            table.addCell(new Cell().add(new Paragraph(mat[i][2])));
+            table.addCell(new Cell().add(new Paragraph(mat[i][3])));
+            table.addCell(new Cell().add(new Paragraph(mat[i][4])));
+            table.addCell(new Cell().add(new Paragraph(mat[i][5])));
+            table.addCell(new Cell().add(new Paragraph(mat[i][6])));
+        }
 
         return table;
     }
@@ -390,12 +352,225 @@ public class Controller extends Firestore {
     }
 
     private static void listSemaine(List<Reservation> all, List<Reservation> semaine){
-        Calendar date1 = Controller.getCalendarForm(FIELD_PLAGE_DEBUT);
-        Calendar date2 = Controller.getCalendarForm(FIELD_PLAGE_FIN);
+
+        Calendar date1 = Controller.getCalendarForm(plageHoraire.get(FIELD_PLAGE_DEBUT).toString());
+        Calendar date2 = Controller.getCalendarForm(plageHoraire.get(FIELD_PLAGE_FIN).toString());
         for(int i=0; i<all.size(); i++){
             Calendar date = Controller.getCalendarForm(all.get(i).getDateReservation());
-            if((date.compareTo(date1) > 0) && (date.compareTo(date2) < 0)){
-                semaine.add(all.get(i));
+            Log.i("debut", date.getTime().toString());
+            if((date.compareTo(date1) >= 0) && (date.compareTo(date2) <= 0)){
+                if(!(existe_deja(all.get(i), semaine))){
+                    Log.i("debut1", "apres le if");
+                    semaine.add(all.get(i));
+                }
+            }
+        }
+    }
+
+    private static boolean existe_deja(Reservation reservation, List<Reservation> semaine){
+        for(int i=0; i<semaine.size(); i++){
+            if(reservation.equals(semaine.get(i))){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static int getJour(Reservation reservation) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date parse = null;
+        parse = sdf.parse(reservation.getDateReservation());
+        Calendar c = Calendar.getInstance();
+        c.setTime(parse);
+        return c.get(Calendar.DAY_OF_WEEK);
+    }
+
+    private static void initMatrice(String mat[][], int nbLigne, int nbreCol){
+        for (int i=0; i<nbLigne; i++){
+            for(int j=0; j<(nbreCol-1); j++){
+                mat[i][j]= "";
+            }
+        }
+
+        mat[0][nbreCol-1] = "07h-09h";
+        mat[1][nbreCol-1] = "09h-11h";
+        mat[2][nbreCol-1] = "11h-13h";
+        mat[3][nbreCol-1] = "13h-15h";
+        mat[4][nbreCol-1] = "15h-17h";
+        mat[5][nbreCol-1] = "17h-19h";
+        mat[6][nbreCol-1] = "19h-21h";
+    }
+
+    private static void formData(String mat[][], List<Reservation> semaine) throws ParseException {
+        for(int i=0; i< semaine.size(); i++){
+            int jour = getJour(semaine.get(i));
+
+            if(jour == 2){
+                if(semaine.get(i).chevauche("07:00", "09:00")){
+                    mat[0][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("09:01", "11:00")){
+                    mat[1][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("11:01", "13:00")){
+                    mat[2][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("13:01", "15:00")){
+                    mat[3][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("15:01", "17:00")){
+                    mat[4][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("17:01", "19:00")){
+                    mat[5][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("19:01", "21:00")){
+                    mat[6][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+            }
+
+            if(jour == 3){
+                if(semaine.get(i).chevauche("07:00", "09:00")){
+                    mat[0][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("09:01", "11:00")){
+                    mat[1][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("11:01", "13:00")){
+                    mat[2][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("13:01", "15:00")){
+                    mat[3][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("15:01", "17:00")){
+                    mat[4][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("17:01", "19:00")){
+                    mat[5][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("19:01", "21:00")){
+                    mat[6][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+            }
+
+            if(jour == 4){
+                if(semaine.get(i).chevauche("07:00", "09:00")){
+                    mat[0][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("09:01", "11:00")){
+                    mat[1][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("11:01", "13:00")){
+                    mat[2][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("13:01", "15:00")){
+                    mat[3][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("15:01", "17:00")){
+                    mat[4][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("17:01", "19:00")){
+                    mat[5][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("19:01", "21:00")){
+                    mat[6][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+            }
+
+            if(jour == 5){
+                if(semaine.get(i).chevauche("07:00", "09:00")){
+                    mat[0][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("09:01", "11:00")){
+                    mat[1][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("11:01", "13:00")){
+                    mat[2][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("13:01", "15:00")){
+                    mat[3][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("15:01", "17:00")){
+                    mat[4][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("17:01", "19:00")){
+                    mat[5][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("19:01", "21:00")){
+                    mat[6][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+            }
+
+            if(jour == 6){
+                if(semaine.get(i).chevauche("07:00", "09:00")){
+                    mat[0][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("09:01", "11:00")){
+                    mat[1][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("11:01", "13:00")){
+                    mat[2][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("13:01", "15:00")){
+                    mat[3][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("15:01", "17:00")){
+                    mat[4][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("17:01", "19:00")){
+                    mat[5][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("19:01", "21:00")){
+                    mat[6][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+            }
+
+            if(jour == 7){
+                if(semaine.get(i).chevauche("07:00", "09:00")){
+                    mat[0][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("09:01", "11:00")){
+                    mat[1][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("11:01", "13:00")){
+                    mat[2][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("13:01", "15:00")){
+                    mat[3][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("15:01", "17:00")){
+                    mat[4][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("17:01", "19:00")){
+                    mat[5][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("19:01", "21:00")){
+                    mat[6][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+            }
+
+            if(jour == 1){
+                if(semaine.get(i).chevauche("07:00", "09:00")){
+                    mat[0][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("09:01", "11:00")){
+                    mat[1][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("11:01", "13:00")){
+                    mat[2][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("13:01", "15:00")){
+                    mat[3][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("15:01", "17:00")){
+                    mat[4][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("17:01", "19:00")){
+                    mat[5][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
+                if(semaine.get(i).chevauche("19:01", "21:00")){
+                    mat[6][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                }
             }
         }
     }

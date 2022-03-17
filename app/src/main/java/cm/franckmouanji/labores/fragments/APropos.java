@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import cm.franckmouanji.labores.BuildConfig;
 import cm.franckmouanji.labores.R;
 import cm.franckmouanji.labores.databinding.FragmentAProposBinding;
+import cm.franckmouanji.labores.systeme.Controller;
 import cm.franckmouanji.labores.systeme.DialogInformAdd;
 
 public class APropos extends Fragment {
@@ -28,6 +29,11 @@ public class APropos extends Fragment {
 
         TextView version_app = root.findViewById(R.id.version_app);
         Button plage = root.findViewById(R.id.plage);
+
+        String user = Controller.take_information_of_file_users(getContext());
+        if(user.equalsIgnoreCase("fs") || user.equalsIgnoreCase("fsprof")){
+            plage.setVisibility(View.GONE);
+        }
 
         plage.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.icu.text.SimpleDateFormat;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.TimePicker;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.Timestamp;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
@@ -227,6 +229,9 @@ public class DialogInformAdd {
             String heure_f = Objects.requireNonNull(heure_fin.getEditText()).getText().toString();
 
             boolean data, data1, data2, data3, data4, data5, data6;
+            Calendar c1 = Calendar.getInstance();
+
+
 
             if(gradeProf.equals("")){
                 grade_spinner.setError("Choisir un grade");
@@ -272,12 +277,28 @@ public class DialogInformAdd {
                 data3 = true;
             }
 
+
             if(date.equals("")){
                 date_reservation.setError("choisir la date de reservation");
                 data4 = false;
             }else{
-                date_reservation.setError("");
-                data4 = true;
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                Date parse = null;
+                try {
+                    parse = sdf.parse(date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                c.setTime(parse);
+
+                if(c.compareTo(c1)>0){
+                    date_reservation.setError("");
+                    data4 = true;
+                }else{
+                    date_reservation.setError("la date de reservation n'est pas valide");
+                    data4 = false;
+                }
             }
 
             if(heure_deb.equals("")){

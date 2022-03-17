@@ -49,6 +49,7 @@ public class ActionAboutReservation extends Firestore {
 
     public static void chargeNewReservationData(final Context context, final ListView list, final TextView error, final List<Reservation> liste){
         final List<Reservation> reservations = new ArrayList<>();
+        liste.clear();
         if(context!=null){
             Firestore.getAllData(COLLECTION_RESERVATION).addOnSuccessListener(queryDocumentSnapshots -> {
                 Reservation reservation = null;

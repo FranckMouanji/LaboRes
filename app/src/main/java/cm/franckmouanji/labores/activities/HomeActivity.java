@@ -41,6 +41,8 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
 
+        Controller.haveStoragePermission(HomeActivity.this);
+
         Controller.veriVersion(HomeActivity.this);
 
         DrawerLayout drawer = binding.drawerLayout;

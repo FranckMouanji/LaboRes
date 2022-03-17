@@ -200,6 +200,35 @@ public class Reservation implements Serializable {
         }
     }
 
+    public boolean chevauche(String heureDebut, String heureFin) {
+        int[] heureDeb1 = new int[2];
+        int[] heureFin1 = new int[2];
+        int[] heureDeb2 = new int[2];
+        int[] heureFin2 = new int[2];
+
+        String[] heureDebS1 = this.heureDebut.split(":");
+        String[] heureFinS1 = this.heureFin.split(":");
+        String[] heureDebS2 = heureDebut.split(":");
+        String[] heureFinS2 = heureFin.split(":");
+
+        translateStringToInt(heureDebS1, heureDeb1);
+        translateStringToInt(heureFinS1, heureFin1);
+        translateStringToInt(heureDebS2, heureDeb2);
+        translateStringToInt(heureFinS2, heureFin2);
+
+        if(imbriquer(heureDeb1, heureFin1, heureDeb2, heureFin2)){
+            return true;
+        } else if (interval(heureDeb2, heureDeb1, heureFin1)) {
+            return true;
+        }else if(interval(heureDeb1, heureDeb2, heureFin2)){
+            return true;
+        }else{
+            return false;
+        }
+
+
+    }
+
     public Timestamp getDateCreation() {
         return dateCreation;
     }
