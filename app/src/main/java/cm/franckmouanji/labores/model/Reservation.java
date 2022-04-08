@@ -11,6 +11,7 @@ public class Reservation implements Serializable {
     private String nomProf;
     private String numeroProf;
     private String typeReservation;
+    private String filiere;
     private String dateReservation;
     private String heureDebut;
     private String heureFin;
@@ -21,17 +22,19 @@ public class Reservation implements Serializable {
     public Reservation() {
     }
 
-    public Reservation(String id, String grade, String nomProf, String typeReservation, String dateReservation, String heureDebut, String heureFin, boolean check) {
+    public Reservation(String id, String grade, String nomProf, String numeroProf, String typeReservation, String filiere, String dateReservation, String heureDebut, String heureFin, Timestamp dateCreation, boolean check) {
         this.id = id;
         this.grade = grade;
         this.nomProf = nomProf;
+        this.numeroProf = numeroProf;
         this.typeReservation = typeReservation;
+        this.filiere = filiere;
         this.dateReservation = dateReservation;
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
+        this.dateCreation = dateCreation;
         this.check = check;
     }
-
 
     public String getId() {
         return id;
@@ -105,6 +108,13 @@ public class Reservation implements Serializable {
         this.check = check;
     }
 
+    public String getFiliere() {
+        return filiere;
+    }
+
+    public void setFiliere(String filiere) {
+        this.filiere = filiere;
+    }
 
     @Override
     public boolean equals(Object o) {

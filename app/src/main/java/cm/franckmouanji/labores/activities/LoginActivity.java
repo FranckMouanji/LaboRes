@@ -11,6 +11,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.Objects;
 
 import cm.franckmouanji.labores.R;
+import cm.franckmouanji.labores.systeme.ActionAboutUser;
 import cm.franckmouanji.labores.systeme.Controller;
 import cm.franckmouanji.labores.systeme.DialogInformAdd;
 
@@ -54,14 +55,13 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             if(data && data1){
-                if((email.equalsIgnoreCase("fs") && password.equals("237")) || (email.equalsIgnoreCase("fsprof") && password.equals("237")) || (email.equals("adminLabo") && password.equals("237"))){
+                if((email.equalsIgnoreCase("fs") && password.equals("237")) || (email.equals("adminLabo") && password.equals("237"))){
                     Controller.create_file(email, LoginActivity.this);
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     startActivity(intent);
                     finish();
                 }else{
-                    log_password.setError("verifier votre mail ou votre mot de passe");
-                    log_password.requestFocus();
+                    ActionAboutUser.verifUtilisateur(LoginActivity.this, email, password);
                 }
             }
         });

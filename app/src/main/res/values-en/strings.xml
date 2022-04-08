@@ -49,4 +49,13 @@
     <string name="liste_des_reservations">List of reservations</string>
     <string name="boutton_floatant">floating button</string>
     <string name="reservation_annuler">reservation cancel</string>
+    <string name="grade_et_nom">Rank and Name:</string>
+    <string name="numero">Number:</string>
+    <string name="type_de_reservation">Type of reservation:</string>
+    <string name="date_de_r_servation">Reservation date:</string>
+    <string name="heure_debut">Beginning hour:</string>
+    <string name="heure_fin">End time:</string>
+    <string name="check">check</string>
+    <string name="supprimer">delete</string>
+    <string name="la_fili_re_concern">the sector concerned</string>
 </resources>

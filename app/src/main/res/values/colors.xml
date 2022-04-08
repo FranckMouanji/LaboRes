@@ -14,4 +14,5 @@
     <color name="black_overlay">#66000000</color>
     <color name="action_bar">#061A55</color>
     <color name="head_of_action_bar">#020A40</color>
+    <color name="red">#FF0000</color>
 </resources>

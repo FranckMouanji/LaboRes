@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:text="Grade et Nom:"
+            android:text="@string/grade_et_nom"
             android:layout_weight="1"/>
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:text="Numéro:"
+            android:text="@string/numero"
             android:layout_weight="1"/>
 
         <TextView
@@ -69,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:text="Type de réservation:"
+            android:text="@string/type_de_reservation"
             android:layout_weight="1"/>
 
         <TextView
@@ -94,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:text="Date de réservation:"
+            android:text="@string/date_de_r_servation"
             android:layout_weight="1"/>
 
         <TextView
@@ -119,7 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:text="Heure debut:"
+            android:text="@string/heure_debut"
             android:layout_weight="1"/>
 
         <TextView
@@ -144,7 +144,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:text="Heure fint:"
+            android:text="@string/heure_fin"
             android:layout_weight="1"/>
 
         <TextView
@@ -173,14 +173,14 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:layout_marginEnd="10dp"
-            android:text="check"/>
+            android:text="@string/check"/>
 
         <Button
             android:id="@+id/delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="supprimer"
+            android:text="@string/supprimer"
             android:textColor="@color/white"/>
 
     </LinearLayout>

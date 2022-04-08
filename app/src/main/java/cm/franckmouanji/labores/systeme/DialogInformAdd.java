@@ -27,6 +27,7 @@ import java.util.Objects;
 
 import cm.franckmouanji.labores.R;
 import cm.franckmouanji.labores.model.Reservation;
+import cm.franckmouanji.labores.model.Utilisateur;
 
 
 public class DialogInformAdd {
@@ -190,6 +191,7 @@ public class DialogInformAdd {
         TextInputLayout nomProf = dialog.findViewById(R.id.nomProf);
         TextInputLayout numProf = dialog.findViewById(R.id.numProf);
         TextInputLayout date_reservation = dialog.findViewById(R.id.date_reservation);
+        TextInputLayout filiere = dialog.findViewById(R.id.filiere);
         TextInputLayout heure_debut = dialog.findViewById(R.id.heure_debut);
         TextInputLayout heure_fin = dialog.findViewById(R.id.heure_fin);
         Button add_reserve = dialog.findViewById(R.id.add_reserve);
@@ -224,11 +226,12 @@ public class DialogInformAdd {
             String numero = Objects.requireNonNull(numProf.getEditText()).getText().toString();
             String gradeProf = grade.getText().toString();
             String reservation = type_reservation.getText().toString();
+            String filiereString = filiere.getEditText().getText().toString();
             String date = Objects.requireNonNull(date_reservation.getEditText()).getText().toString();
             String heure_deb = Objects.requireNonNull(heure_debut.getEditText()).getText().toString();
             String heure_f = Objects.requireNonNull(heure_fin.getEditText()).getText().toString();
 
-            boolean data, data1, data2, data3, data4, data5, data6;
+            boolean data, data1, data2, data3, data4, data5, data6, data7;
             Calendar c1 = Calendar.getInstance();
 
 
@@ -264,6 +267,16 @@ public class DialogInformAdd {
                 type_reservation_spinner.setError("");
                 type_reservation_spinner.clearFocus();
                 data2 = true;
+            }
+
+            if(filiereString.equals("")){
+                filiere.setError("precisez la filiere concerne");
+                filiere.requestFocus();
+                data7 = false;
+            }else{
+                filiere.setError("");
+                filiere.clearFocus();
+                data7 = true;
             }
 
 
@@ -326,13 +339,11 @@ public class DialogInformAdd {
 
 
 
-            if(data && data1 && data2 && data3 && data4 && data5 && data6){
+            if(data && data1 && data2 && data3 && data4 && data5 && data6 && data7){
                 Date dateCreation = new Date();
                 Timestamp timestamp = new Timestamp(dateCreation);
                 String id = Controller.getId();
-                Reservation reservation1 = new Reservation(id, gradeProf, nom, reservation, date, heure_deb, heure_f, false);
-                reservation1.setNumeroProf(numero);
-                reservation1.setDateCreation(timestamp);
+                Reservation reservation1 = new Reservation(id, gradeProf, nom, numero, reservation, filiereString, date, heure_deb, heure_f, timestamp, false);
                 if(!(ActionAboutReservation.testReservation(reservation1, Controller.listReservation))){
                     ActionAboutReservation.setDataFromFirebase(reservation1, context, dialog);
                 }else{
@@ -350,6 +361,85 @@ public class DialogInformAdd {
 
     }
 
+
+    public static void addAccount(final Context context){
+
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.add_account);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false);
+
+        String[] list= context.getResources().getStringArray(R.array.types_reservations);
+        String[] listGrade= context.getResources().getStringArray(R.array.grade);
+
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(context, R.layout.spinner_item, listGrade);
+        adapter2.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        //initViews
+        TextInputLayout grade_spinner = dialog.findViewById(R.id.grade_spinner);
+        AutoCompleteTextView  grade = dialog.findViewById(R.id.grade);
+
+        TextInputLayout nomProf = dialog.findViewById(R.id.nomProf);
+        TextInputLayout numProf = dialog.findViewById(R.id.numProf);
+        Button add_reserve = dialog.findViewById(R.id.add_account);
+        Button annuler = dialog.findViewById(R.id.annuler);
+
+        //add adapter
+        grade.setAdapter(adapter2);
+
+        //Listener
+        annuler.setOnClickListener(view -> dialog.dismiss());
+
+        add_reserve.setOnClickListener(view -> {
+            String nom = Objects.requireNonNull(nomProf.getEditText()).getText().toString();
+            String numero = Objects.requireNonNull(numProf.getEditText()).getText().toString();
+            String gradeProf = grade.getText().toString();
+
+            boolean data, data1, data3;
+            Calendar c1 = Calendar.getInstance();
+
+            if(gradeProf.equals("")){
+                grade_spinner.setError("Choisir un grade");
+                grade_spinner.requestFocus();
+                data = false;
+            }else {
+                grade_spinner.setError("");
+                grade_spinner.clearFocus();
+                data = true;
+            }
+
+            if(nom.equals("")){
+                nomProf.setError("precisez votre nom");
+                nomProf.requestFocus();
+                data1 = false;
+            }else{
+                nomProf.setError("");
+                nomProf.clearFocus();
+                data1 = true;
+            }
+
+            if(!(Controller.verifNumero(numero))){
+                numProf.setError("entrez un numero valide");
+                numProf.requestFocus();
+                data3 = false;
+            }else{
+                numProf.setError("");
+                numProf.clearFocus();
+                data3 = true;
+            }
+
+            if(data && data1  && data3){
+                String id = "utilisateur"+(Controller.nbreUtilisateur+1);
+                Utilisateur utilisateur = new Utilisateur(gradeProf, nom, numero, id, "237");
+                ActionAboutUser.setDataFromFirebase(utilisateur, context, dialog);
+            }
+        });
+
+        dialog.show();
+
+//        Toast.makeText(context, "add student exist", Toast.LENGTH_SHORT).show();
+
+    }
 
     public static void showDatePickerDialog(Context context, final EditText editText){
         DatePickerDialog datePickerDialog = new DatePickerDialog(

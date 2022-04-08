@@ -3,6 +3,7 @@ package cm.franckmouanji.labores.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -13,8 +14,12 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.FileNotFoundException;
+import java.text.ParseException;
+
 import cm.franckmouanji.labores.R;
 import cm.franckmouanji.labores.databinding.ActivityHomeBinding;
+import cm.franckmouanji.labores.systeme.ActionAboutUser;
 import cm.franckmouanji.labores.systeme.Controller;
 import cm.franckmouanji.labores.systeme.DialogInformAdd;
 
@@ -32,6 +37,17 @@ public class HomeActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
+        binding.appBarMain.toolbar.findViewById(R.id.show_program).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Controller.createPdf("program", Controller.listReservation, HomeActivity.this);
+                } catch (FileNotFoundException | ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         //getInformation to connexion
         Intent intent = getIntent();
         if(intent.hasExtra("connexion")){
@@ -40,6 +56,9 @@ public class HomeActivity extends AppCompatActivity {
                 DialogInformAdd.fatalErrorDialog(HomeActivity.this);
             }
         }
+
+        //get nombre utilisateur
+        ActionAboutUser.recupererNombreUtilisateur();
 
         Controller.haveStoragePermission(HomeActivity.this);
 

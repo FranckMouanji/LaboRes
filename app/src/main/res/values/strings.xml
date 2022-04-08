@@ -49,4 +49,13 @@
     <string name="liste_des_reservations">Liste des réservations</string>
     <string name="boutton_floatant">bouton flottant</string>
     <string name="reservation_annuler">réservation annuler</string>
+    <string name="grade_et_nom">Grade et Nom:</string>
+    <string name="numero">Numéro:</string>
+    <string name="type_de_reservation">Type de réservation:</string>
+    <string name="date_de_r_servation">Date de réservation:</string>
+    <string name="heure_debut">Heure debut:</string>
+    <string name="heure_fin">Heure fin:</string>
+    <string name="check">check</string>
+    <string name="supprimer">supprimer</string>
+    <string name="la_fili_re_concern">la filière concerné</string>
 </resources>

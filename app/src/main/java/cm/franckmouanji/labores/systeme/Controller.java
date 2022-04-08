@@ -42,10 +42,12 @@ import java.util.Map;
 import cm.franckmouanji.labores.BuildConfig;
 import cm.franckmouanji.labores.firebase.Firestore;
 import cm.franckmouanji.labores.model.Reservation;
+import cm.franckmouanji.labores.model.Utilisateur;
 
 public class Controller extends Firestore {
     public static List<Reservation> listReservation = new ArrayList<>();
     public static List<Reservation> listOldReservation = new ArrayList<>();
+    public static int nbreUtilisateur;
     public static boolean first = true;
 
     private static final String TAG = "Controller";
@@ -59,7 +61,11 @@ public class Controller extends Firestore {
     private static Map<String, Object> plageHoraire = new HashMap<>();
 
 
-
+    /**
+     * methode liée au reservation
+     * @param heureDebut
+     * @param heureFin
+     */
     public static void setData(String heureDebut, String heureFin){
         Map<String, Object> plage = new HashMap<>();
         plage.put(FIELD_PLAGE_DEBUT, heureDebut);
@@ -134,6 +140,7 @@ public class Controller extends Firestore {
     }
 
 
+    //verification de la version de l'application
     public static void veriVersion(Context context){
         getCollection(COLLECTION_SYSTEM).document(DOCUMENT_VERSION).get().addOnSuccessListener(documentSnapshot -> {
             String local_version = documentSnapshot.getString(FIELD_VERSION);
@@ -203,6 +210,48 @@ public class Controller extends Firestore {
         }
     }
 
+
+    public static void create_file(Utilisateur utilisateur, Context context){
+        if (utilisateur != null){
+
+            FileOutputStream fileOutputStream = null;
+            String data = utilisateur.getGrade()+"  "+utilisateur.getNom()+"  "+utilisateur.getNumero_telephone()+"  "+utilisateur.getMot_de_passe();
+
+            try {
+                fileOutputStream = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+                fileOutputStream.write(data.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (fileOutputStream != null){
+                    try {
+                        fileOutputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }else{
+            String contenu_ecrit = " ";
+            FileOutputStream fileOutputStream = null;
+
+            try {
+                fileOutputStream = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+                fileOutputStream.write(contenu_ecrit.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (fileOutputStream != null){
+                    try {
+                        fileOutputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
     //read information of file
 
     public static String take_information_of_file_users(Context context){
@@ -237,6 +286,42 @@ public class Controller extends Firestore {
         return information_user_take;
     }
 
+
+    public static String take_information_of_file_users(Context context, int element){
+        String information_user_take;
+
+        FileInputStream fis = null;
+        try {
+            fis = context.openFileInput(FILE_NAME);
+            Log.d(TAG, "take_information_of_file_users: fis : " + fis);
+        } catch (FileNotFoundException e) {
+            Log.e(TAG, "take_information_of_file_users: Error when open file user info", e);
+        }
+        assert fis != null;
+        InputStreamReader inputStreamReader = new InputStreamReader(fis);
+        StringBuilder stringBuilder = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
+            String line = reader.readLine();
+            while (line != null) {
+                stringBuilder.append(line);
+                line = reader.readLine();
+            }
+
+            reader.close();
+            inputStreamReader.close();
+        } catch (IOException e) {
+            // Error occurred when opening raw file for reading.
+            Log.e(TAG, "take_information_of_file_users: ", e);
+        } finally {
+            information_user_take = stringBuilder.toString();
+        }
+
+        String[] tabInfo = information_user_take.split("  ");
+        return tabInfo[element];
+    }
+
+
+    //order
     public static Calendar getCalendarForm(String date){
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date parse = null;
@@ -263,6 +348,16 @@ public class Controller extends Firestore {
             return false;
         }
     }
+
+
+    /**
+     * gestion du fichier pdf contenant le programme
+     * @param fileName
+     * @param liste
+     * @param context
+     * @throws FileNotFoundException
+     * @throws ParseException
+     */
 
     public static void createPdf(String fileName, List<Reservation> liste, Context context) throws FileNotFoundException, ParseException {
         String filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
@@ -407,169 +502,169 @@ public class Controller extends Firestore {
 
             if(jour == 2){
                 if(semaine.get(i).chevauche("07:00", "09:00")){
-                    mat[0][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[0][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("09:01", "11:00")){
-                    mat[1][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[1][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("11:01", "13:00")){
-                    mat[2][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[2][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("13:01", "15:00")){
-                    mat[3][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[3][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("15:01", "17:00")){
-                    mat[4][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[4][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("17:01", "19:00")){
-                    mat[5][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[5][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("19:01", "21:00")){
-                    mat[6][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[6][0] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
             }
 
             if(jour == 3){
                 if(semaine.get(i).chevauche("07:00", "09:00")){
-                    mat[0][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[0][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("09:01", "11:00")){
-                    mat[1][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[1][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("11:01", "13:00")){
-                    mat[2][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[2][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("13:01", "15:00")){
-                    mat[3][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[3][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("15:01", "17:00")){
-                    mat[4][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[4][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("17:01", "19:00")){
-                    mat[5][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[5][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("19:01", "21:00")){
-                    mat[6][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[6][1] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
             }
 
             if(jour == 4){
                 if(semaine.get(i).chevauche("07:00", "09:00")){
-                    mat[0][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[0][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("09:01", "11:00")){
-                    mat[1][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[1][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("11:01", "13:00")){
-                    mat[2][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[2][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("13:01", "15:00")){
-                    mat[3][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[3][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("15:01", "17:00")){
-                    mat[4][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[4][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("17:01", "19:00")){
-                    mat[5][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[5][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("19:01", "21:00")){
-                    mat[6][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[6][2] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
             }
 
             if(jour == 5){
                 if(semaine.get(i).chevauche("07:00", "09:00")){
-                    mat[0][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[0][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("09:01", "11:00")){
-                    mat[1][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[1][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("11:01", "13:00")){
-                    mat[2][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[2][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("13:01", "15:00")){
-                    mat[3][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[3][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("15:01", "17:00")){
-                    mat[4][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[4][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("17:01", "19:00")){
-                    mat[5][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[5][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("19:01", "21:00")){
-                    mat[6][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[6][3] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
             }
 
             if(jour == 6){
                 if(semaine.get(i).chevauche("07:00", "09:00")){
-                    mat[0][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[0][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("09:01", "11:00")){
-                    mat[1][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[1][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("11:01", "13:00")){
-                    mat[2][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[2][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("13:01", "15:00")){
-                    mat[3][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[3][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("15:01", "17:00")){
-                    mat[4][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[4][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("17:01", "19:00")){
-                    mat[5][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[5][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("19:01", "21:00")){
-                    mat[6][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[6][4] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
             }
 
             if(jour == 7){
                 if(semaine.get(i).chevauche("07:00", "09:00")){
-                    mat[0][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[0][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("09:01", "11:00")){
-                    mat[1][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[1][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("11:01", "13:00")){
-                    mat[2][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[2][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("13:01", "15:00")){
-                    mat[3][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[3][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("15:01", "17:00")){
-                    mat[4][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[4][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("17:01", "19:00")){
-                    mat[5][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[5][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("19:01", "21:00")){
-                    mat[6][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[6][5] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
             }
 
             if(jour == 1){
                 if(semaine.get(i).chevauche("07:00", "09:00")){
-                    mat[0][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[0][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("09:01", "11:00")){
-                    mat[1][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[1][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("11:01", "13:00")){
-                    mat[2][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[2][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("13:01", "15:00")){
-                    mat[3][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[3][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("15:01", "17:00")){
-                    mat[4][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[4][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("17:01", "19:00")){
-                    mat[5][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[5][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
                 if(semaine.get(i).chevauche("19:01", "21:00")){
-                    mat[6][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getHeureDebut()+"-"+semaine.get(i).getHeureFin();
+                    mat[6][6] = semaine.get(i).getNomProf()+"\n"+semaine.get(i).getTypeReservation()+"  "+semaine.get(i).getFiliere();
                 }
             }
         }

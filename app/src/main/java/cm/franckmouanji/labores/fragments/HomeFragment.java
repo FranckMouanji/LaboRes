@@ -32,7 +32,7 @@ public class HomeFragment extends Fragment {
     private TextView empty;
     ListenerRegistration registration;
     private FloatingActionButton addReservation;
-    private FloatingActionButton show_program;
+//    private FloatingActionButton show_program;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -63,16 +63,16 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        show_program.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    Controller.createPdf("program", Controller.listReservation, getContext());
-                } catch (FileNotFoundException | ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        show_program.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                try {
+//                    Controller.createPdf("program", Controller.listReservation, getContext());
+//                } catch (FileNotFoundException | ParseException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
         return root;
     }
@@ -81,7 +81,7 @@ public class HomeFragment extends Fragment {
         item_list = root.findViewById(R.id.item_list);
         empty = root.findViewById(R.id.empty);
         addReservation = root.findViewById(R.id.add_reservation);
-        show_program = root.findViewById(R.id.show_program);
+//        show_program = root.findViewById(R.id.show_program);
 
         String user = Controller.take_information_of_file_users(getContext());
         if(user.equalsIgnoreCase("fs")){

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="30dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/grade_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:hint="entrez le grade"
+        app:endIconTint="@color/black"
+        app:hintTextColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintVertical_bias="0.094"
+        app:layout_constraintWidth_percent=".9"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="10dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/grade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:textColor="@color/black"
+            android:inputType="none"
+            tools:ignore="LabelFor" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nomProf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nom du professeur"
+        app:hintTextColor="@color/black"
+        android:textColorHint="@color/black"
+        android:focusableInTouchMode="true"
+        android:layout_marginBottom="30dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:textColorHint="@color/black"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:inputType="text"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/numProf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Numéro de téléphone du professeur"
+        app:hintTextColor="@color/black"
+        android:textColorHint="@color/black"
+        android:layout_marginBottom="30dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:textColorHint="@color/black"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:inputType="phone"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/add_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/black"
+            android:foreground="@android:color/transparent"
+            android:background="@android:color/transparent"
+            android:layout_weight="1"
+            android:text="@string/ajouter"
+            style="?android:attr/buttonBarButtonStyle" />
+
+        <Button
+            android:id="@+id/annuler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/black"
+            android:foreground="@android:color/transparent"
+            android:background="@android:color/transparent"
+            android:layout_weight="1"
+            android:text="@string/annuler"
+            style="?android:attr/buttonBarButtonStyle" />
+
+    </LinearLayout>
+
+</LinearLayout>
