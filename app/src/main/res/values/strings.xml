@@ -58,4 +58,19 @@
     <string name="check">check</string>
     <string name="supprimer">supprimer</string>
     <string name="la_fili_re_concern">la filière concerné</string>
+    <string name="mon_compte">Mon Compte</string>
+    <string name="modifier_mon_mot_de_passe">Modifier mon mot de passe</string>
+    <string name="modifier_mon_identifiant">Modifier mon identifiant</string>
+    <string name="plage_de_la_semaine">plage de la semaine</string>
+    <string name="d_connexion">Déconnexion</string>
+    <string name="ajouter_un_compte">Ajouter un compte</string>
+    <string name="mettre_jour">mettre à jour</string>
+    <string name="entrez_le_grade">entrez le grade</string>
+    <string name="nom_du_professeur">Nom du professeur</string>
+    <string name="num_ro_de_t_l_phone_du_professeur">Numéro de téléphone du professeur</string>
+    <string name="confirmez_votre_mot_de_passe">Confirmez votre mot de passe</string>
+    <string name="nouveau_mot_de_passe">Nouveau mot de passe</string>
+    <string name="ancien_mot_de_passe">Ancien mot de passe</string>
+    <string name="date_de_debut_de_semaine">Date de début de semaine</string>
+    <string name="date_de_fin_de_semaine">Date de fin de semaine</string>
 </resources>

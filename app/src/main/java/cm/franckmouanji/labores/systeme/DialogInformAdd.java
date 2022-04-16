@@ -82,81 +82,67 @@ public class DialogInformAdd {
         Button ajouter_plage = dialog.findViewById(R.id.ajouter_plage);
         Button annuler_plage = dialog.findViewById(R.id.annuler_plage);
 
-        annuler_plage.setOnClickListener(view -> {
-            ((Activity)context).finish();
-            dialog.dismiss();
-        });
+        annuler_plage.setOnClickListener(view -> dialog.dismiss());
 
         TextInputLayout date_debut = dialog.findViewById(R.id.date_debut);
         TextInputLayout date_fin = dialog.findViewById(R.id.date_fin);
         EditText editText = date_debut.getEditText();
         EditText editText1 = date_fin.getEditText();
 
-        editText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDatePickerDialog(context, editText);
+        assert editText != null;
+        editText.setOnClickListener(view -> showDatePickerDialog(context, editText));
+
+        assert editText1 != null;
+        editText1.setOnClickListener(view -> showDatePickerDialog(context, editText1));
+
+        ajouter_plage.setOnClickListener(view -> {
+            String date1 = editText.getText().toString();
+            String date2 = editText1.getText().toString();
+
+            boolean correctDate1, correctDate2;
+
+            if(date1.equals("")){
+                correctDate1 = false;
+                date_debut.setError("entrez une date");
+                date_debut.requestFocus();
+            }else{
+                correctDate1 = true;
+                date_debut.setError("");
+                date_debut.clearFocus();
             }
-        });
 
-        editText1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDatePickerDialog(context, editText1);
+            if(date2.equals("")){
+                correctDate2 = false;
+                date_fin.setError("entrez une date");
+                date_fin.requestFocus();
+            }else{
+                correctDate2 = true;
+                date_fin.setError("");
+                date_fin.clearFocus();
             }
-        });
 
-        ajouter_plage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String date1 = editText.getText().toString();
-                String date2 = editText1.getText().toString();
-
-                boolean correctDate1, correctDate2;
-
-                if(date1.equals("")){
-                    correctDate1 = false;
-                    date_debut.setError("entrez une date");
-                    date_debut.requestFocus();
-                }else{
-                    correctDate1 = true;
-                    date_debut.setError("");
-                    date_debut.clearFocus();
-                }
-
-                if(date2.equals("")){
-                    correctDate2 = false;
-                    date_fin.setError("entrez une date");
-                    date_fin.requestFocus();
-                }else{
-                    correctDate2 = true;
-                    date_fin.setError("");
-                    date_fin.clearFocus();
-                }
-
-                if(correctDate1 && correctDate2){
-                    Calendar c1 = Controller.getCalendarForm(date1);
-                    Calendar c2 = Controller.getCalendarForm(date2);
+            if(correctDate1 && correctDate2){
+                Calendar c1 = Controller.getCalendarForm(date1);
+                Calendar c2 = Controller.getCalendarForm(date2);
 
 
-                    if (c1 != null && c2 != null) {
-                        if(c1.compareTo(c2) > 0){
-                            correctDate2 = false;
-                            date_fin.setError("la date de fin est avant la date de debut");
-                            date_fin.requestFocus();
-                        }else{
-                            date_fin.setError("");
-                            date_fin.clearFocus();
-                        }
+                if (c1 != null && c2 != null) {
+                    if(c1.compareTo(c2) > 0){
+                        correctDate2 = false;
+                        date_fin.setError("la date de fin est avant la date de debut");
+                        date_fin.requestFocus();
+                    }else{
+                        date_fin.setError("");
+                        date_fin.clearFocus();
                     }
                 }
-
-                if(correctDate1 && correctDate2){
-                    Controller.setData(date1, date2);
-                }
-                
-                dialog.dismiss();
             }
+
+            if(correctDate1 && correctDate2){
+                Controller.setData(date1, date2);
+            }
+
+            dialog.dismiss();
         });
 
 
@@ -175,8 +161,8 @@ public class DialogInformAdd {
         String[] list= context.getResources().getStringArray(R.array.types_reservations);
         String[] listGrade= context.getResources().getStringArray(R.array.grade);
 
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(context, R.layout.spinner_item, list);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(context, R.layout.spinner_item, listGrade);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(context, R.layout.spinner_item, list);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(context, R.layout.spinner_item, listGrade);
 
         adapter1.setDropDownViewResource(R.layout.spinner_dropdown_item);
         adapter2.setDropDownViewResource(R.layout.spinner_dropdown_item);
@@ -197,6 +183,14 @@ public class DialogInformAdd {
         Button add_reserve = dialog.findViewById(R.id.add_reserve);
         Button annuler = dialog.findViewById(R.id.annuler);
 
+        //initialisation des champs
+        String admin = Controller.take_information_of_file_users(context);
+        if(!(admin.equals(Controller.ADMIN_ACCOUNT))){
+            Utilisateur utilisateur = Controller.information_of_file_users(context);
+            Objects.requireNonNull(nomProf.getEditText()).setText(utilisateur.getNom());
+            Objects.requireNonNull(numProf.getEditText()).setText(utilisateur.getNumero_telephone());
+            grade.setText(utilisateur.getGrade());
+        }
 
         //local variable
         EditText editText = date_reservation.getEditText();
@@ -226,7 +220,7 @@ public class DialogInformAdd {
             String numero = Objects.requireNonNull(numProf.getEditText()).getText().toString();
             String gradeProf = grade.getText().toString();
             String reservation = type_reservation.getText().toString();
-            String filiereString = filiere.getEditText().getText().toString();
+            String filiereString = Objects.requireNonNull(filiere.getEditText()).getText().toString();
             String date = Objects.requireNonNull(date_reservation.getEditText()).getText().toString();
             String heure_deb = Objects.requireNonNull(heure_debut.getEditText()).getText().toString();
             String heure_f = Objects.requireNonNull(heure_fin.getEditText()).getText().toString();
@@ -303,6 +297,7 @@ public class DialogInformAdd {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                assert parse != null;
                 c.setTime(parse);
 
                 if(c.compareTo(c1)>0){
@@ -372,7 +367,7 @@ public class DialogInformAdd {
         String[] list= context.getResources().getStringArray(R.array.types_reservations);
         String[] listGrade= context.getResources().getStringArray(R.array.grade);
 
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(context, R.layout.spinner_item, listGrade);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(context, R.layout.spinner_item, listGrade);
         adapter2.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
         //initViews
@@ -443,13 +438,10 @@ public class DialogInformAdd {
 
     public static void showDatePickerDialog(Context context, final EditText editText){
         DatePickerDialog datePickerDialog = new DatePickerDialog(
-                (Activity)context,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        i1++;
-                        editText.setText(i2+"/"+i1+"/"+i);
-                    }
+                context,
+                (datePicker, i, i1, i2) -> {
+                    i1++;
+                    editText.setText(i2+"/"+i1+"/"+i);
                 },
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
@@ -461,13 +453,8 @@ public class DialogInformAdd {
 
     public static void showTimePickerDialog(Context context, final EditText editText){
         TimePickerDialog timePickerDialog = new TimePickerDialog(
-                (Activity) context,
-                new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                        editText.setText(i+":"+i1);
-                    }
-                },
+                context,
+                (timePicker, i, i1) -> editText.setText(i+":"+i1),
                 Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
                 Calendar.getInstance().get(Calendar.MINUTE),
                 DateFormat.is24HourFormat(context)
@@ -488,6 +475,85 @@ public class DialogInformAdd {
 
     }
 
-    public static void addStudentDeux(Context context) {
+    public static void updatePassword(Context context) {
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.update_password);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false);
+
+        /*
+          connect the view
+         */
+        TextInputLayout old_password = dialog.findViewById(R.id.old_password);
+        TextInputLayout new_password = dialog.findViewById(R.id.new_password);
+        TextInputLayout confirm_password = dialog.findViewById(R.id.confirm_password);
+        Button update = dialog.findViewById(R.id.update);
+        Button annuler = dialog.findViewById(R.id.annuler);
+
+        annuler.setOnClickListener(view -> dialog.dismiss());
+
+        update.setOnClickListener(view -> {
+            String oldPassword = Objects.requireNonNull(old_password.getEditText()).getText().toString();
+            String newPassword = Objects.requireNonNull(new_password.getEditText()).getText().toString();
+            String confirmNewPassword = Objects.requireNonNull(confirm_password.getEditText()).getText().toString();
+
+            Utilisateur utilisateur = Controller.information_of_file_users(context);
+
+            boolean data1, data2, data3;
+            if(oldPassword.equals("")){
+                old_password.requestFocus();
+                old_password.setError("entrez votre ancien mot de passe");
+                data1 = false;
+            }else if(!(oldPassword.equals(utilisateur.getMot_de_passe()))){
+                old_password.requestFocus();
+                old_password.setError("votre mot de passe ne correspond pas");
+                data1 = false;
+            }else{
+                old_password.clearFocus();
+                old_password.setError("");
+                data1 = true;
+            }
+
+            if(newPassword.equals("")){
+                new_password.requestFocus();
+                new_password.setError("entrez votre ancien mot de passe");
+                data2 = false;
+            }else{
+                new_password.clearFocus();
+                new_password.setError("");
+                data2 = true;
+            }
+
+            if(confirmNewPassword.equals("")){
+                confirm_password.requestFocus();
+                confirm_password.setError("entrez votre ancien mot de passe");
+                data3 = false;
+            }else{
+                confirm_password.clearFocus();
+                confirm_password.setError("");
+                data3 = true;
+            }
+
+            if(data2 && data3){
+                if(!(newPassword.equals(confirmNewPassword))){
+                    confirm_password.requestFocus();
+                    new_password.setError("les mots de passe ne correspondent pas");
+                    confirm_password.setError("les mots de passe ne correspondent pas");
+                    data3 = false;
+                }else{
+                    confirm_password.clearFocus();
+                    new_password.setError("");
+                    confirm_password.setError("");
+                    data3 = true;
+                }
+            }
+
+            if(data1 && data2 && data3){
+                ActionAboutUser.updateInfomation(utilisateur.getIdentifiant(), "mot_de_passe", newPassword,utilisateur, context);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }

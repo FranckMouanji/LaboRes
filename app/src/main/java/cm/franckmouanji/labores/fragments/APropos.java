@@ -28,19 +28,6 @@ public class APropos extends Fragment {
         View root = binding.getRoot();
 
         TextView version_app = root.findViewById(R.id.version_app);
-        Button plage = root.findViewById(R.id.plage);
-
-        String user = Controller.take_information_of_file_users(getContext());
-        if(user.equalsIgnoreCase("fs") || user.equalsIgnoreCase("fsprof")){
-            plage.setVisibility(View.GONE);
-        }
-
-        plage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogInformAdd.addPlageDialog(getContext());
-            }
-        });
 
         version_app.setText(BuildConfig.VERSION_NAME);
         return root;

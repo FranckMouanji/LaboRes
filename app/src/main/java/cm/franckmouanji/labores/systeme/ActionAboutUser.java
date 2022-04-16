@@ -46,60 +46,49 @@ public class ActionAboutUser extends Firestore {
     }
 
     public static void recupererNombreUtilisateur() {
-        Firestore.getAllData(COLLECTION_USER).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                Controller.nbreUtilisateur = queryDocumentSnapshots.size();
-            }
-        });
+        Firestore.getAllData(COLLECTION_USER).addOnSuccessListener(queryDocumentSnapshots -> Controller.nbreUtilisateur = queryDocumentSnapshots.size());
     }
 
     public static void verifUtilisateur(final Context context, String id, String password) {
         if (context != null) {
-            Firestore.getAllData(COLLECTION_USER).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                @Override
-                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                    Utilisateur utilisateur = null, utilisateurTrouver=null;
+            Firestore.getAllData(COLLECTION_USER).addOnSuccessListener(queryDocumentSnapshots -> {
+                Utilisateur utilisateur, utilisateurTrouver=null;
 
-                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        utilisateur =documentSnapshot.toObject(Utilisateur.class);
-                        if(utilisateur.getIdentifiant().equals(id)){
-                            utilisateurTrouver = utilisateur;
-                        }
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                    utilisateur =documentSnapshot.toObject(Utilisateur.class);
+                    if(utilisateur.getIdentifiant().equals(id)){
+                        utilisateurTrouver = utilisateur;
                     }
+                }
 
-                    if(utilisateurTrouver != null){
-                        Controller.create_file(utilisateurTrouver, context);
-                        Intent intent = new Intent(context, HomeActivity.class);
-                        ((Activity)context).startActivity(intent);
-                        ((Activity)context).finish();
-                    }else{
-                        DialogInformAdd.informError("erreur de mot de passe ou d'identifiant", context);
-                    }
+                if(utilisateurTrouver != null){
+                    Controller.create_file(utilisateurTrouver, context);
+                    Intent intent = new Intent(context, HomeActivity.class);
+                    context.startActivity(intent);
+                    ((Activity)context).finish();
+                }else{
+                    DialogInformAdd.informError("erreur de mot de passe ou d'identifiant", context);
                 }
             });
         }
     }
 
 
-    public static void updateInfomation(String id_res, String field, String value){
-        getParticularData(COLLECTION_USER, "id", id_res).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                String id = queryDocumentSnapshots.getDocuments().get(0).getId();
-                getReservationCollection().document(id).update(field, value);
-            }
+    public static void updateInfomation(String id_res, String field, String value, Utilisateur utilisateur, Context context){
+        getParticularData(COLLECTION_USER, "identifiant", id_res).addOnSuccessListener(queryDocumentSnapshots -> {
+            String id = queryDocumentSnapshots.getDocuments().get(0).getId();
+            getReservationCollection().document(id).update(field, value);
+
+            Controller.delete_file(context);
+            Controller.create_file(utilisateur, context);
         });
     }
 
-    public static void updateInfomation(String id_res, String field1, String value1, String field2, String value2){
-        getParticularData(COLLECTION_USER, "id", id_res).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                String id = queryDocumentSnapshots.getDocuments().get(0).getId();
-                getReservationCollection().document(id).update(field1, value1);
-                getReservationCollection().document(id).update(field2, value2);
-            }
+    public static void updateInfomation(String id_res, String field1, String value1, String field2, String value2, Utilisateur utilisateur){
+        getParticularData(COLLECTION_USER, "identifiant", id_res).addOnSuccessListener(queryDocumentSnapshots -> {
+            String id = queryDocumentSnapshots.getDocuments().get(0).getId();
+            getReservationCollection().document(id).update(field1, value1);
+            getReservationCollection().document(id).update(field2, value2);
         });
     }
 }

@@ -169,11 +169,13 @@
 
         <Button
             android:id="@+id/check"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:layout_marginEnd="10dp"
-            android:text="@string/check"/>
+            android:text="@string/check"
+            style="?android:attr/buttonBarButtonStyle" />
 
         <Button
             android:id="@+id/delete"
@@ -181,7 +183,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="@string/supprimer"
-            android:textColor="@color/white"/>
+            android:visibility="gone"
+            android:textColor="@color/white"
+            style="?android:attr/buttonBarButtonStyle" />
 
     </LinearLayout>
 

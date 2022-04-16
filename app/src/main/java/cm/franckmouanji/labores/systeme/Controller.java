@@ -10,6 +10,7 @@ import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
@@ -38,8 +39,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import cm.franckmouanji.labores.BuildConfig;
+import cm.franckmouanji.labores.activities.LoginActivity;
 import cm.franckmouanji.labores.firebase.Firestore;
 import cm.franckmouanji.labores.model.Reservation;
 import cm.franckmouanji.labores.model.Utilisateur;
@@ -48,6 +51,7 @@ public class Controller extends Firestore {
     public static List<Reservation> listReservation = new ArrayList<>();
     public static List<Reservation> listOldReservation = new ArrayList<>();
     public static int nbreUtilisateur;
+    public static final String ADMIN_ACCOUNT = "adminLabo";
     public static boolean first = true;
 
     private static final String TAG = "Controller";
@@ -63,9 +67,7 @@ public class Controller extends Firestore {
 
     /**
      * methode liée au reservation
-     * @param heureDebut
-     * @param heureFin
-     */
+     **/
     public static void setData(String heureDebut, String heureFin){
         Map<String, Object> plage = new HashMap<>();
         plage.put(FIELD_PLAGE_DEBUT, heureDebut);
@@ -153,6 +155,10 @@ public class Controller extends Firestore {
     }
 
 
+    /**
+     * file action
+     */
+
     private static boolean verif_file_exist(Context context){
         File file = new File(context.getFilesDir(), FILE_NAME);
         return file.isFile();
@@ -165,6 +171,18 @@ public class Controller extends Firestore {
         }else {
             return false;
         }
+    }
+
+    public static void deconnexion(Context context){
+        context.deleteFile(FILE_NAME);
+        Intent intent  = new Intent(context, LoginActivity.class);
+        Toast.makeText(context, "Logout", Toast.LENGTH_SHORT).show();
+        context.startActivity(intent);
+        ((Activity) context).finish();
+    }
+
+    public static void delete_file(Context context){
+        context.deleteFile(FILE_NAME);
     }
 
 
@@ -215,7 +233,7 @@ public class Controller extends Firestore {
         if (utilisateur != null){
 
             FileOutputStream fileOutputStream = null;
-            String data = utilisateur.getGrade()+"  "+utilisateur.getNom()+"  "+utilisateur.getNumero_telephone()+"  "+utilisateur.getMot_de_passe();
+            String data = utilisateur.getGrade()+"  "+utilisateur.getNom()+"  "+utilisateur.getNumero_telephone()+"  "+utilisateur.getIdentifiant()+"  "+utilisateur.getMot_de_passe();
 
             try {
                 fileOutputStream = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
@@ -287,7 +305,7 @@ public class Controller extends Firestore {
     }
 
 
-    public static String take_information_of_file_users(Context context, int element){
+    public static Utilisateur information_of_file_users(Context context){
         String information_user_take;
 
         FileInputStream fis = null;
@@ -316,15 +334,15 @@ public class Controller extends Firestore {
             information_user_take = stringBuilder.toString();
         }
 
-        String[] tabInfo = information_user_take.split("  ");
-        return tabInfo[element];
+        String[] tabInfo = information_user_take.split(" {2}");
+        return new Utilisateur(tabInfo[0], tabInfo[1], tabInfo[2], tabInfo[3], tabInfo[4]);
     }
 
 
     //order
     public static Calendar getCalendarForm(String date){
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date parse = null;
+        Date parse;
         try {
             parse = sdf.parse(date);
             Calendar c = Calendar.getInstance();
@@ -352,11 +370,6 @@ public class Controller extends Firestore {
 
     /**
      * gestion du fichier pdf contenant le programme
-     * @param fileName
-     * @param liste
-     * @param context
-     * @throws FileNotFoundException
-     * @throws ParseException
      */
 
     public static void createPdf(String fileName, List<Reservation> liste, Context context) throws FileNotFoundException, ParseException {
@@ -411,7 +424,7 @@ public class Controller extends Firestore {
 
 
 
-        String mat[][] = new String[7][8];
+        String[][] mat = new String[7][8];
         initMatrice(mat, 7, 8);
         formData(mat, semaine);
 
@@ -437,26 +450,27 @@ public class Controller extends Firestore {
 
 
     public static void getPlage(){
-        getCollection(COLLECTION_SYSTEM).document(DOCUMENT_PLAGE).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                plageHoraire.put(FIELD_PLAGE_DEBUT, documentSnapshot.getString(FIELD_PLAGE_DEBUT));
-                plageHoraire.put(FIELD_PLAGE_FIN, documentSnapshot.getString(FIELD_PLAGE_FIN));
-            }
+        getCollection(COLLECTION_SYSTEM).document(DOCUMENT_PLAGE).get().addOnSuccessListener(documentSnapshot -> {
+            plageHoraire.put(FIELD_PLAGE_DEBUT, documentSnapshot.getString(FIELD_PLAGE_DEBUT));
+            plageHoraire.put(FIELD_PLAGE_FIN, documentSnapshot.getString(FIELD_PLAGE_FIN));
         });
     }
 
     private static void listSemaine(List<Reservation> all, List<Reservation> semaine){
 
-        Calendar date1 = Controller.getCalendarForm(plageHoraire.get(FIELD_PLAGE_DEBUT).toString());
-        Calendar date2 = Controller.getCalendarForm(plageHoraire.get(FIELD_PLAGE_FIN).toString());
+        Calendar date1 = Controller.getCalendarForm(Objects.requireNonNull(plageHoraire.get(FIELD_PLAGE_DEBUT)).toString());
+        Calendar date2 = Controller.getCalendarForm(Objects.requireNonNull(plageHoraire.get(FIELD_PLAGE_FIN)).toString());
         for(int i=0; i<all.size(); i++){
             Calendar date = Controller.getCalendarForm(all.get(i).getDateReservation());
-            Log.i("debut", date.getTime().toString());
-            if((date.compareTo(date1) >= 0) && (date.compareTo(date2) <= 0)){
-                if(!(existe_deja(all.get(i), semaine))){
-                    Log.i("debut1", "apres le if");
-                    semaine.add(all.get(i));
+            Log.i("debut", Objects.requireNonNull(date).getTime().toString());
+            assert date1 != null;
+            if((date.compareTo(date1) >= 0)) {
+                assert date2 != null;
+                if (date.compareTo(date2) <= 0) {
+                    if (!(existe_deja(all.get(i), semaine))) {
+                        Log.i("debut1", "apres le if");
+                        semaine.add(all.get(i));
+                    }
                 }
             }
         }
@@ -473,14 +487,14 @@ public class Controller extends Firestore {
 
     private static int getJour(Reservation reservation) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date parse = null;
+        Date parse;
         parse = sdf.parse(reservation.getDateReservation());
         Calendar c = Calendar.getInstance();
         c.setTime(parse);
         return c.get(Calendar.DAY_OF_WEEK);
     }
 
-    private static void initMatrice(String mat[][], int nbLigne, int nbreCol){
+    private static void initMatrice(String[][] mat, int nbLigne, int nbreCol){
         for (int i=0; i<nbLigne; i++){
             for(int j=0; j<(nbreCol-1); j++){
                 mat[i][j]= "";
@@ -496,7 +510,7 @@ public class Controller extends Firestore {
         mat[6][nbreCol-1] = "19h-21h";
     }
 
-    private static void formData(String mat[][], List<Reservation> semaine) throws ParseException {
+    private static void formData(String[][] mat, List<Reservation> semaine) throws ParseException {
         for(int i=0; i< semaine.size(); i++){
             int jour = getJour(semaine.get(i));
 

@@ -50,15 +50,21 @@ public class ShowItem extends AppCompatActivity {
         }
 
         if(intent.hasExtra("source")){
-            source = intent.getStringExtra("source");;
+            source = intent.getStringExtra("source");
         }
 
         Reservation reservation;
         if(source.equals("home")){
-            delete.setVisibility(View.GONE);
+            if(Controller.take_information_of_file_users(ShowItem.this).equals(Controller.ADMIN_ACCOUNT)){
+                check.setVisibility(View.VISIBLE);
+            }
+
             reservation = Controller.getNewReservation(id);
         }else{
-            check.setVisibility(View.GONE);
+            if(Controller.take_information_of_file_users(ShowItem.this).equals(Controller.ADMIN_ACCOUNT)){
+                delete.setVisibility(View.VISIBLE);
+            }
+
             reservation = Controller.getOldReservation(id);
         }
 
@@ -66,20 +72,14 @@ public class ShowItem extends AppCompatActivity {
         assert reservation != null;
         chargeTextView(reservation);
 
-        check.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ActionAboutReservation.updateReservation(reservation.getId());
-                finish();
-            }
+        check.setOnClickListener(view -> {
+            ActionAboutReservation.updateReservation(reservation.getId());
+            finish();
         });
 
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ActionAboutReservation.deleteReservation(reservation.getId());
-                finish();
-            }
+        delete.setOnClickListener(view -> {
+            ActionAboutReservation.deleteReservation(reservation.getId());
+            finish();
         });
 
     }

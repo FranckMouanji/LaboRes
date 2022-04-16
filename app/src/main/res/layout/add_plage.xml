@@ -15,7 +15,7 @@
            android:id="@+id/date_debut"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:hint="Date de debut de semaine"
+           android:hint="@string/date_de_debut_de_semaine"
            app:hintTextColor="@color/black"
            android:textColorHint="@color/black"
            android:layout_marginBottom="30dp"
@@ -34,7 +34,7 @@
            android:id="@+id/date_fin"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:hint="Date de fin de semaine"
+           android:hint="@string/date_de_fin_de_semaine"
            app:hintTextColor="@color/black"
            android:textColorHint="@color/black"
            android:layout_marginBottom="30dp"
@@ -61,8 +61,11 @@
                android:layout_height="wrap_content"
                android:layout_gravity="center"
                android:layout_marginEnd="20dp"
+               android:foreground="@android:color/transparent"
+               android:background="@android:color/transparent"
                android:text="@string/ajouter"
-               android:textColor="@color/white"/>
+               android:textColor="@color/black"
+               style="?android:attr/buttonBarButtonStyle" />
 
            <Button
                android:id="@+id/annuler_plage"
@@ -70,8 +73,11 @@
                android:layout_height="wrap_content"
                android:layout_gravity="center"
                android:layout_marginStart="20dp"
+               android:foreground="@android:color/transparent"
+               android:background="@android:color/transparent"
                android:text="@string/annuler"
-               android:textColor="@color/white"/>
+               android:textColor="@color/black"
+               style="?android:attr/buttonBarButtonStyle" />
 
 
        </LinearLayout>

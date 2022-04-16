@@ -22,4 +22,9 @@
         android:name="cm.franckmouanji.labores.fragments.APropos"
         android:label="@string/menu_a_propos"
         tools:layout="@layout/fragment_a_propos" />
+    <fragment
+        android:id="@+id/nav_mon_compte"
+        android:name="cm.franckmouanji.labores.fragments.MonCompte"
+        android:label="@string/mon_compte"
+        tools:layout="@layout/fragment_mon_compte" />
 </navigation>

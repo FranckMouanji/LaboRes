@@ -13,6 +13,12 @@
             android:id="@+id/nav_historique"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_historique" />
+
+        <item
+            android:id="@+id/nav_mon_compte"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/mon_compte" />
+
         <item
             android:id="@+id/nav_a_propos"
             android:icon="@drawable/ic_menu_slideshow"

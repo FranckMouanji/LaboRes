@@ -58,4 +58,19 @@
     <string name="check">check</string>
     <string name="supprimer">delete</string>
     <string name="la_fili_re_concern">the sector concerned</string>
+    <string name="mon_compte">My Account</string>
+    <string name="modifier_mon_mot_de_passe">Change my password</string>
+    <string name="modifier_mon_identifiant">Change my username</string>
+    <string name="plage_de_la_semaine">beach of the week</string>
+    <string name="d_connexion">Logout</string>
+    <string name="ajouter_un_compte">Add an account</string>
+    <string name="mettre_jour">update</string>
+    <string name="entrez_le_grade">enter rank</string>
+    <string name="nom_du_professeur">Teacher\'s name</string>
+    <string name="num_ro_de_t_l_phone_du_professeur">Teacher\'s phone number</string>
+    <string name="confirmez_votre_mot_de_passe">Confirm your password</string>
+    <string name="nouveau_mot_de_passe">New Password</string>
+    <string name="ancien_mot_de_passe">Old Password</string>
+    <string name="date_de_debut_de_semaine">Week start date</string>
+    <string name="date_de_fin_de_semaine">weekend date</string>
 </resources>
